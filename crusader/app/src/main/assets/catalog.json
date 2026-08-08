@@ -125,6 +125,30 @@
           "side": "kreuzfahrer",
           "nameEn": "The Wolf",
           "roleEn": "Warlord of the north"
+        },
+        {
+          "id": "lord_ph",
+          "name": "Fürst (ph)",
+          "role": "Nach dem Anhören umbenennen",
+          "side": "",
+          "nameEn": "Lord (ph)",
+          "roleEn": "Rename after listening"
+        },
+        {
+          "id": "lord_fr",
+          "name": "Fürst (fr)",
+          "role": "Nach dem Anhören umbenennen",
+          "side": "",
+          "nameEn": "Lord (fr)",
+          "roleEn": "Rename after listening"
+        },
+        {
+          "id": "genie",
+          "name": "Der Dschinn",
+          "role": "Aus Extreme",
+          "side": "",
+          "nameEn": "The Genie",
+          "roleEn": "From Extreme"
         }
       ],
       "titleEn": "Characters",
@@ -133,7 +157,7 @@
     {
       "id": "narrator",
       "title": "Erzähler",
-      "subtitle": "Kampagnen-Kommentar",
+      "subtitle": "Kommentar und Ratgeber",
       "icon": "scroll",
       "groups": [
         {
@@ -143,10 +167,34 @@
           "side": "",
           "nameEn": "Narrator",
           "roleEn": "Voice of the campaign"
+        },
+        {
+          "id": "advisor",
+          "name": "Ratgeber",
+          "role": "Hinweise zur Burg",
+          "side": "",
+          "nameEn": "Advisor",
+          "roleEn": "Castle notifications"
+        },
+        {
+          "id": "briefings",
+          "name": "Missionsbriefings",
+          "role": "Auftrag zu Beginn",
+          "side": "",
+          "nameEn": "Mission briefings",
+          "roleEn": "Briefing at the start"
+        },
+        {
+          "id": "names",
+          "name": "Namen",
+          "role": "Angesagte Namen",
+          "side": "",
+          "nameEn": "Names",
+          "roleEn": "Spoken names"
         }
       ],
       "titleEn": "Narrator",
-      "subtitleEn": "Campaign commentary"
+      "subtitleEn": "Commentary and advisor"
     },
     {
       "id": "population",
@@ -211,6 +259,126 @@
           "side": "",
           "nameEn": "Catapult",
           "roleEn": "Siege"
+        },
+        {
+          "id": "crossbowman",
+          "name": "Armbrustschütze",
+          "role": "Fernkampf",
+          "side": "kreuzfahrer",
+          "nameEn": "Crossbowman",
+          "roleEn": "Ranged"
+        },
+        {
+          "id": "pikeman",
+          "name": "Pikenier",
+          "role": "Nahkampf",
+          "side": "kreuzfahrer",
+          "nameEn": "Pikeman",
+          "roleEn": "Melee"
+        },
+        {
+          "id": "maceman",
+          "name": "Streitkolbenkämpfer",
+          "role": "Nahkampf",
+          "side": "kreuzfahrer",
+          "nameEn": "Maceman",
+          "roleEn": "Melee"
+        },
+        {
+          "id": "swordsman",
+          "name": "Schwertkämpfer",
+          "role": "Schwere Infanterie",
+          "side": "kreuzfahrer",
+          "nameEn": "Swordsman",
+          "roleEn": "Heavy infantry"
+        },
+        {
+          "id": "knight",
+          "name": "Ritter",
+          "role": "Berittene Einheit",
+          "side": "kreuzfahrer",
+          "nameEn": "Knight",
+          "roleEn": "Mounted"
+        },
+        {
+          "id": "monk",
+          "name": "Mönch",
+          "role": "Geweihter Kämpfer",
+          "side": "kreuzfahrer",
+          "nameEn": "Monk",
+          "roleEn": "Blessed fighter"
+        },
+        {
+          "id": "engineer",
+          "name": "Ingenieur",
+          "role": "Belagerungsgerät",
+          "side": "kreuzfahrer",
+          "nameEn": "Engineer",
+          "roleEn": "Siege crew"
+        },
+        {
+          "id": "tunneler",
+          "name": "Tunnelgräber",
+          "role": "Untergräbt Mauern",
+          "side": "kreuzfahrer",
+          "nameEn": "Tunneler",
+          "roleEn": "Undermines walls"
+        },
+        {
+          "id": "ladderman",
+          "name": "Leiterträger",
+          "role": "Mauersturm",
+          "side": "kreuzfahrer",
+          "nameEn": "Ladderman",
+          "roleEn": "Wall assault"
+        },
+        {
+          "id": "arab_archer",
+          "name": "Arabischer Bogenschütze",
+          "role": "Fernkampf",
+          "side": "sarazenen",
+          "nameEn": "Arabian archer",
+          "roleEn": "Ranged"
+        },
+        {
+          "id": "arab_swordsman",
+          "name": "Arabischer Schwertkämpfer",
+          "role": "Nahkampf",
+          "side": "sarazenen",
+          "nameEn": "Arabian swordsman",
+          "roleEn": "Melee"
+        },
+        {
+          "id": "slinger",
+          "name": "Schleuderer",
+          "role": "Fernkampf",
+          "side": "sarazenen",
+          "nameEn": "Slinger",
+          "roleEn": "Ranged"
+        },
+        {
+          "id": "horsearcher",
+          "name": "Berittener Bogenschütze",
+          "role": "Berittene Einheit",
+          "side": "sarazenen",
+          "nameEn": "Horse archer",
+          "roleEn": "Mounted"
+        },
+        {
+          "id": "slave",
+          "name": "Sklave",
+          "role": "Brandstifter",
+          "side": "sarazenen",
+          "nameEn": "Slave",
+          "roleEn": "Firestarter"
+        },
+        {
+          "id": "grenadier",
+          "name": "Grenadier",
+          "role": "Feuertöpfe",
+          "side": "sarazenen",
+          "nameEn": "Grenadier",
+          "roleEn": "Fire pots"
         }
       ],
       "titleEn": "Units",
@@ -233,6 +401,58 @@
       ],
       "titleEn": "Music",
       "subtitleEn": "Themes and desert wind"
+    },
+    {
+      "id": "messages",
+      "title": "Mehrspieler",
+      "subtitle": "Ansagen und Sticheleien",
+      "icon": "scroll",
+      "titleEn": "Multiplayer",
+      "subtitleEn": "Announcements and taunts",
+      "groups": [
+        {
+          "id": "multiplayer",
+          "name": "Mehrspieler",
+          "role": "Ansagen und Sticheleien",
+          "side": "",
+          "nameEn": "Multiplayer",
+          "roleEn": "Announcements and taunts"
+        }
+      ]
+    },
+    {
+      "id": "effects",
+      "title": "Geräusche",
+      "subtitle": "Kampf, Tod und Handwerk",
+      "icon": "wave",
+      "titleEn": "Sound effects",
+      "subtitleEn": "Combat, death and crafts",
+      "groups": [
+        {
+          "id": "combat",
+          "name": "Kampf",
+          "role": "Treffer und Feuer",
+          "side": "",
+          "nameEn": "Combat",
+          "roleEn": "Hits and fire"
+        },
+        {
+          "id": "deaths",
+          "name": "Todesschreie",
+          "role": "Gefallene Einheiten",
+          "side": "",
+          "nameEn": "Death cries",
+          "roleEn": "Fallen units"
+        },
+        {
+          "id": "crafts",
+          "name": "Handwerk",
+          "role": "Werkstätten und Betriebe",
+          "side": "",
+          "nameEn": "Crafts",
+          "roleEn": "Workshops and industry"
+        }
+      ]
     }
   ]
 }
