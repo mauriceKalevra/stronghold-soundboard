@@ -1,0 +1,67 @@
+{
+  "categories": [
+    {
+      "id": "characters",
+      "title": "Charaktere",
+      "subtitle": "Sprüche der Gegner",
+      "icon": "shield",
+      "groups": [
+        { "id": "richard",  "name": "Richard Löwenherz", "role": "König von England",        "side": "kreuzfahrer" },
+        { "id": "saladin",  "name": "Saladin",           "role": "Sultan der Sarazenen",     "side": "sarazenen" },
+        { "id": "sultan",   "name": "Der Sultan",        "role": "Herr der Wüstenstadt",     "side": "sarazenen" },
+        { "id": "caliph",   "name": "Der Kalif",         "role": "Freund des Feuers",        "side": "sarazenen" },
+        { "id": "emir",     "name": "Der Emir",          "role": "Vorsichtiger Verteidiger", "side": "sarazenen" },
+        { "id": "wazir",    "name": "Der Wesir",         "role": "Händler mit Hintergedanken","side": "sarazenen" },
+        { "id": "nizar",    "name": "Nizar",             "role": "Herr der Assassinen",      "side": "sarazenen" },
+        { "id": "sultana",  "name": "Die Sultanin",      "role": "Herrin der Oase",          "side": "sarazenen" },
+        { "id": "sheriff",  "name": "Der Sheriff",       "role": "Steuereintreiber",         "side": "kreuzfahrer" },
+        { "id": "marshal",  "name": "Der Marschall",     "role": "Turnierritter",            "side": "kreuzfahrer" },
+        { "id": "abbot",    "name": "Der Abt",           "role": "Frommer Zuchtmeister",     "side": "kreuzfahrer" },
+        { "id": "rat",      "name": "Die Ratte",         "role": "Feigling im Sold",         "side": "kreuzfahrer" },
+        { "id": "snake",    "name": "Die Schlange",      "role": "Intrigant",                "side": "kreuzfahrer" },
+        { "id": "pig",      "name": "Das Schwein",       "role": "Grobian",                  "side": "kreuzfahrer" },
+        { "id": "wolf",     "name": "Der Wolf",          "role": "Kriegsherr des Nordens",   "side": "kreuzfahrer" }
+      ]
+    },
+    {
+      "id": "narrator",
+      "title": "Erzähler",
+      "subtitle": "Kampagnen-Kommentar",
+      "icon": "scroll",
+      "groups": [
+        { "id": "narrator", "name": "Erzähler", "role": "Stimme der Kampagne", "side": "" }
+      ]
+    },
+    {
+      "id": "population",
+      "title": "Bevölkerung",
+      "subtitle": "Bauern, Markt, Jubel",
+      "icon": "house",
+      "groups": [
+        { "id": "peasants", "name": "Bauern",         "role": "Volk der Burg", "side": "" },
+        { "id": "market",   "name": "Markt & Handel", "role": "Basar",         "side": "" }
+      ]
+    },
+    {
+      "id": "units",
+      "title": "Einheiten",
+      "subtitle": "Befehle und Schlachtrufe",
+      "icon": "sword",
+      "groups": [
+        { "id": "archer",   "name": "Bogenschütze", "role": "Fernkampf",             "side": "kreuzfahrer" },
+        { "id": "spearman", "name": "Speerträger",  "role": "Nahkampf",              "side": "kreuzfahrer" },
+        { "id": "assassin", "name": "Assassine",    "role": "Sarazenische Einheit",  "side": "sarazenen" },
+        { "id": "catapult", "name": "Katapult",     "role": "Belagerung",            "side": "" }
+      ]
+    },
+    {
+      "id": "music",
+      "title": "Musik",
+      "subtitle": "Themen und Wüstenwind",
+      "icon": "note",
+      "groups": [
+        { "id": "themes", "name": "Themen & Ambiente", "role": "Musikstücke", "side": "" }
+      ]
+    }
+  ]
+}
