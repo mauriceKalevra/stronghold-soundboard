@@ -13,6 +13,39 @@ import org.json.JSONObject
  */
 object CatalogRepository {
 
+    private val KIND_LABELS_EN = mapOf(
+        "anger" to "Anger",
+        "angry" to "Anger",
+        "congrats" to "Congratulations",
+        "taunt" to "Taunt",
+        "greet" to "Greeting",
+        "hello" to "Greeting",
+        "attack" to "Attack",
+        "defeat" to "Defeat",
+        "peace" to "Peace",
+        "victory" to "Victory",
+        "intro" to "Intro",
+        "mission" to "Mission",
+        "hint" to "Hint",
+        "cheer" to "Cheer",
+        "boo" to "Booing",
+        "work" to "Work",
+        "hunger" to "Hunger",
+        "buy" to "Buying",
+        "sell" to "Selling",
+        "trade" to "Trade",
+        "select" to "Select",
+        "move" to "Move",
+        "death" to "Death",
+        "fire" to "Fire",
+        "load" to "Load",
+        "hit" to "Hit",
+        "theme" to "Theme",
+        "siege" to "Siege",
+        "oasis" to "Oasis",
+        "wind" to "Desert wind"
+    )
+
     private val KIND_LABELS = mapOf(
         "anger" to "Wut",
         "angry" to "Wut",
@@ -48,7 +81,7 @@ object CatalogRepository {
 
     private val AUDIO_EXTENSIONS = listOf(".mp3", ".ogg", ".wav", ".m4a")
 
-    fun load(context: Context): Catalog {
+    fun load(context: Context, lang: Lang = Lang.DE): Catalog {
         val raw = context.assets.open("catalog.json").bufferedReader().use { it.readText() }
         val root = JSONObject(raw)
         val categoriesJson = root.getJSONArray("categories")
@@ -63,15 +96,17 @@ object CatalogRepository {
             for (j in 0 until groupsJson.length()) {
                 val groupJson = groupsJson.getJSONObject(j)
                 val groupId = groupJson.getString("id")
-                val groupName = groupJson.getString("name")
-                val directory = "sounds/$categoryId/$groupId"
+                val groupName = pick(groupJson, "name", lang)
+                val directory = soundDirectory(context, categoryId, groupId, lang)
 
                 val sounds = listAudioFiles(context, directory).map { fileName ->
                     Sound(
-                        id = "$directory/$fileName",
+                        // Die Kennung bleibt ohne Sprachordner, damit Favoriten
+                        // einen Sprachwechsel ueberstehen.
+                        id = "sounds/$categoryId/$groupId/$fileName",
                         file = fileName,
                         assetPath = "$directory/$fileName",
-                        label = labelFor(fileName),
+                        label = labelFor(fileName, lang),
                         groupId = groupId,
                         groupName = groupName,
                         categoryId = categoryId
@@ -82,7 +117,7 @@ object CatalogRepository {
                     SoundGroup(
                         id = groupId,
                         name = groupName,
-                        role = groupJson.optString("role", ""),
+                        role = pick(groupJson, "role", lang),
                         side = groupJson.optString("side", ""),
                         categoryId = categoryId,
                         sounds = sounds
@@ -93,14 +128,35 @@ object CatalogRepository {
             categories.add(
                 Category(
                     id = categoryId,
-                    title = categoryJson.getString("title"),
-                    subtitle = categoryJson.optString("subtitle", ""),
+                    title = pick(categoryJson, "title", lang),
+                    subtitle = pick(categoryJson, "subtitle", lang),
                     icon = categoryJson.optString("icon", "shield"),
                     groups = groups
                 )
             )
         }
         return Catalog(categories)
+    }
+
+    /**
+     * Englisch nimmt "name" + "En", also nameEn/titleEn/subtitleEn/roleEn.
+     * Fehlt das Feld, bleibt der deutsche Text stehen.
+     */
+    private fun pick(json: JSONObject, key: String, lang: Lang): String {
+        val base = json.optString(key, "")
+        if (lang == Lang.DE) return base
+        val translated = json.optString(key + "En", "")
+        return if (translated.isBlank()) base else translated
+    }
+
+    /**
+     * Sucht zuerst den Sprachordner (z. B. sounds/characters/richard/en).
+     * Ist er leer oder fehlt er, werden die Dateien direkt im Gruppenordner genommen.
+     */
+    private fun soundDirectory(context: Context, categoryId: String, groupId: String, lang: Lang): String {
+        val base = "sounds/$categoryId/$groupId"
+        val localised = "$base/${lang.code}"
+        return if (listAudioFiles(context, localised).isNotEmpty()) localised else base
     }
 
     private fun listAudioFiles(context: Context, directory: String): List<String> =
@@ -110,8 +166,8 @@ object CatalogRepository {
             ?.sorted()
             ?: emptyList()
 
-    /** Aus "ri_anger_02.mp3" wird "Wut". */
-    private fun labelFor(fileName: String): String {
+    /** Aus "ri_anger_02.mp3" wird "Wut" bzw. "Anger". */
+    private fun labelFor(fileName: String, lang: Lang): String {
         val base = fileName.substringBeforeLast('.')
         val parts = base.split('_', '-').filter { it.isNotBlank() }
         val kind = when {
@@ -120,6 +176,7 @@ object CatalogRepository {
             else -> base
         }.lowercase().trimEnd('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
 
-        return KIND_LABELS[kind] ?: kind.replaceFirstChar { it.uppercaseChar() }
+        val labels = if (lang == Lang.EN) KIND_LABELS_EN else KIND_LABELS
+        return labels[kind] ?: kind.replaceFirstChar { it.uppercaseChar() }
     }
 }

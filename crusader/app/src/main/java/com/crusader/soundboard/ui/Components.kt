@@ -37,23 +37,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.crusader.soundboard.R
 import com.crusader.soundboard.data.Sound
-import androidx.compose.ui.graphics.Brush
 
-
-
-/** Grundgeruest: Bild im Hintergrund, darueber , Inhalt, Tableiste. */
+/** Grundgeruest: Pixelwueste im Hintergrund, darueber Kopfzeile, Inhalt, Tableiste. */
 @Composable
 fun DesertScaffold(
     dimBackground: Boolean = false,
@@ -142,7 +143,12 @@ fun TopBanner(
 }
 
 @Composable
-fun BottomTabs(selected: String, onSelect: (String) -> Unit) {
+fun BottomTabs(
+    selected: String,
+    homeLabel: String,
+    favoritesLabel: String,
+    onSelect: (String) -> Unit
+) {
     Column {
         Box(Modifier.fillMaxWidth().height(1.dp).background(Palette.Edge))
         Row(
@@ -151,8 +157,8 @@ fun BottomTabs(selected: String, onSelect: (String) -> Unit) {
                 .background(StoneGradient)
                 .padding(vertical = 8.dp)
         ) {
-            TabItem(Modifier.weight(1f), Icons.Filled.Home, "START", selected == "home") { onSelect("home") }
-            TabItem(Modifier.weight(1f), Icons.Filled.Star, "FAVORITEN", selected == "fav") { onSelect("fav") }
+            TabItem(Modifier.weight(1f), Icons.Filled.Home, homeLabel, selected == "home") { onSelect("home") }
+            TabItem(Modifier.weight(1f), Icons.Filled.Star, favoritesLabel, selected == "fav") { onSelect("fav") }
         }
     }
 }
@@ -225,6 +231,27 @@ fun SearchField(value: String, onValueChange: (String) -> Unit, placeholder: Str
     )
 }
 
+/** Kleine Flagge zum Umschalten der Sprache. */
+@Composable
+fun FlagButton(
+    flagRes: Int,
+    active: Boolean,
+    contentDescription: String,
+    onClick: () -> Unit
+) {
+    val shape = RoundedCornerShape(2.dp)
+    Image(
+        painter = painterResource(flagRes),
+        contentDescription = contentDescription,
+        modifier = Modifier
+            .size(width = 26.dp, height = 17.dp)
+            .alpha(if (active) 1f else 0.4f)
+            .clip(shape)
+            .border(1.dp, if (active) Palette.Brass else Palette.Edge, shape)
+            .clickable(onClick = onClick)
+    )
+}
+
 /** Steinkachel fuer Kategorien und Gruppen. */
 @Composable
 fun StoneTile(
@@ -269,6 +296,12 @@ fun SoundRow(
     progress: Float,
     duration: String,
     showGroupName: Boolean,
+    playLabel: String,
+    stopLabel: String,
+    addFavoriteLabel: String,
+    removeFavoriteLabel: String,
+    downloadLabel: String,
+    shareLabel: String,
     onPlay: () -> Unit,
     onToggleFavorite: () -> Unit,
     onDownload: () -> Unit,
@@ -302,7 +335,7 @@ fun SoundRow(
             ) {
                 Icon(
                     imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                    contentDescription = if (isPlaying) "Stoppen" else "Abspielen",
+                    contentDescription = if (isPlaying) stopLabel else playLabel,
                     tint = if (isPlaying) Palette.Night else Palette.Brass,
                     modifier = Modifier.size(18.dp)
                 )
@@ -326,16 +359,16 @@ fun SoundRow(
             IconButton(onClick = onToggleFavorite, modifier = Modifier.size(36.dp)) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Star else Icons.Filled.StarBorder,
-                    contentDescription = if (isFavorite) "Aus Favoriten entfernen" else "Zu Favoriten hinzufügen",
+                    contentDescription = if (isFavorite) removeFavoriteLabel else addFavoriteLabel,
                     tint = if (isFavorite) Palette.Brass else Palette.InkDim,
                     modifier = Modifier.size(19.dp)
                 )
             }
             IconButton(onClick = onDownload, modifier = Modifier.size(36.dp)) {
-                Icon(Icons.Filled.Download, contentDescription = "Herunterladen", tint = Palette.InkDim, modifier = Modifier.size(18.dp))
+                Icon(Icons.Filled.Download, contentDescription = downloadLabel, tint = Palette.InkDim, modifier = Modifier.size(18.dp))
             }
             IconButton(onClick = onShare, modifier = Modifier.size(36.dp)) {
-                Icon(Icons.Filled.Share, contentDescription = "Teilen", tint = Palette.InkDim, modifier = Modifier.size(17.dp))
+                Icon(Icons.Filled.Share, contentDescription = shareLabel, tint = Palette.InkDim, modifier = Modifier.size(17.dp))
             }
         }
         if (isPlaying) {

@@ -3,10 +3,10 @@ package com.crusader.soundboard.ui
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -48,20 +47,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.crusader.soundboard.MainViewModel
+import com.crusader.soundboard.R
 import com.crusader.soundboard.data.Category
+import com.crusader.soundboard.data.Lang
 import com.crusader.soundboard.data.Sound
 import com.crusader.soundboard.data.SoundGroup
 import com.crusader.soundboard.util.SoundActions
 import kotlinx.coroutines.delay
 
-private const val LOAD_MILLIS = 7000L
-
-private val LOADING_LINES = listOf(
-    "Karawane wird beladen …",
-    "Steine werden geschlagen …",
-    "Wüstenwind zieht auf …",
-    "Tore öffnen sich …"
-)
+/** Dauer des Ladebalkens in Millisekunden. */
+private const val LOAD_MILLIS = 3000L
 
 @Composable
 fun SoundboardApp(viewModel: MainViewModel) {
@@ -148,9 +143,9 @@ private fun backToHome(navController: NavHostController) {
 
 /* ---------------------------------------------------------------- Splash */
 
-
 @Composable
 private fun SplashScreen(viewModel: MainViewModel, onFinished: () -> Unit) {
+    val strings = viewModel.strings
     var progress by remember { mutableFloatStateOf(0f) }
     var lineIndex by remember { mutableStateOf(0) }
 
@@ -161,7 +156,8 @@ private fun SplashScreen(viewModel: MainViewModel, onFinished: () -> Unit) {
             val elapsed = System.currentTimeMillis() - start
             val value = (elapsed.toFloat() / LOAD_MILLIS).coerceIn(0f, 1f)
             progress = value
-            lineIndex = (value * LOADING_LINES.size).toInt().coerceAtMost(LOADING_LINES.lastIndex)
+            lineIndex = (value * strings.loadingLines.size).toInt()
+                .coerceAtMost(strings.loadingLines.lastIndex)
             if (value >= 1f) break
             delay(16)
         }
@@ -180,16 +176,17 @@ private fun SplashScreen(viewModel: MainViewModel, onFinished: () -> Unit) {
             ) {
                 Text(
                     text = "STRONGHOLD SOUNDBOARD",
-                    style = Type.Body,
-                    color = Palette.Parchment.copy(alpha = 0.65f)
+                    style = Type.Label,
+                    color = Palette.Parchment.copy(alpha = 0.45f)
                 )
                 Spacer(Modifier.height(6.dp))
                 Text(
                     text = "Maurice Kalevra",
-                    style = Type.Body,
-                    color = Palette.Parchment.copy(alpha = 0.62f)
+                    style = Type.Meta,
+                    color = Palette.Parchment.copy(alpha = 0.32f)
                 )
             }
+
             Column(
                 Modifier
                     .align(Alignment.BottomCenter)
@@ -198,7 +195,7 @@ private fun SplashScreen(viewModel: MainViewModel, onFinished: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = LOADING_LINES[lineIndex],
+                    text = strings.loadingLines[lineIndex],
                     style = Type.Meta,
                     color = Palette.Parchment.copy(alpha = 0.75f),
                     textAlign = TextAlign.Center
@@ -239,29 +236,54 @@ private fun HomeScreen(
     onFavorites: () -> Unit,
     onReplayIntro: () -> Unit
 ) {
+    val strings = viewModel.strings
     val favorites by viewModel.favorites.collectAsState()
     val catalog = viewModel.catalog
+
     LaunchedEffect(Unit) { viewModel.startHomeAmbient() }
 
     DesertScaffold(
         topBar = {
             TopBanner(
-                title = "Crusader Soundboard",
-                subtitle = "${catalog.soundCount} Sounds im Archiv",
+                title = strings.appTitle,
+                subtitle = strings.archiveCount.format(catalog.soundCount),
                 action = {
-                    IconButton(onClick = onReplayIntro) {
-                        Icon(Icons.Filled.Refresh, contentDescription = "Intro erneut abspielen", tint = Palette.Ink)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        FlagButton(
+                            flagRes = R.drawable.flag_de,
+                            active = viewModel.language == Lang.DE,
+                            contentDescription = strings.languageGerman,
+                            onClick = { viewModel.switchLanguage(Lang.DE) }
+                        )
+                        Spacer(Modifier.width(6.dp))
+                        FlagButton(
+                            flagRes = R.drawable.flag_en,
+                            active = viewModel.language == Lang.EN,
+                            contentDescription = strings.languageEnglish,
+                            onClick = { viewModel.switchLanguage(Lang.EN) }
+                        )
+                        IconButton(onClick = onReplayIntro) {
+                            Icon(
+                                Icons.Filled.Refresh,
+                                contentDescription = strings.replayIntro,
+                                tint = Palette.Ink
+                            )
+                        }
                     }
                 }
             )
         },
-        bottomBar = { BottomTabs("home") { if (it == "fav") onFavorites() } }
+        bottomBar = {
+            BottomTabs("home", strings.tabStart, strings.tabFavorites) {
+                if (it == "fav") onFavorites()
+            }
+        }
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(start = 14.dp, end = 14.dp, top = 16.dp, bottom = 24.dp)
         ) {
-            item { SectionLabel("Kategorien") }
+            item { SectionLabel(strings.categories) }
 
             items(catalog.categories, key = { it.id }) { category ->
                 StoneTile(onClick = { onCategory(category) }) {
@@ -270,7 +292,7 @@ private fun HomeScreen(
                     Column(Modifier.weight(1f)) {
                         Text(category.title, style = Type.TileTitle, color = Palette.Parchment)
                         Text(
-                            "${category.soundCount} Sounds · ${category.subtitle}",
+                            strings.soundsCount.format(category.soundCount) + " · " + category.subtitle,
                             style = Type.Meta,
                             color = Palette.InkDim,
                             modifier = Modifier.padding(top = 3.dp)
@@ -284,9 +306,9 @@ private fun HomeScreen(
                     TileGlyph(Icons.Filled.Star)
                     Spacer(Modifier.width(13.dp))
                     Column(Modifier.weight(1f)) {
-                        Text("Favoriten", style = Type.TileTitle, color = Palette.Parchment)
+                        Text(strings.favorites, style = Type.TileTitle, color = Palette.Parchment)
                         Text(
-                            "${favorites.size} gemerkt",
+                            strings.savedCount.format(favorites.size),
                             style = Type.Meta,
                             color = Palette.InkDim,
                             modifier = Modifier.padding(top = 3.dp)
@@ -298,7 +320,7 @@ private fun HomeScreen(
     }
 }
 
-private fun iconFor(name: String): ImageVector = when (name) {
+private fun iconFor(name: String) = when (name) {
     "scroll" -> Icons.Filled.MenuBook
     "house" -> Icons.Filled.Cottage
     "sword" -> Icons.Filled.Gavel
@@ -318,26 +340,32 @@ private fun GroupListScreen(
     onHome: () -> Unit,
     onFavorites: () -> Unit
 ) {
+    val strings = viewModel.strings
     var query by remember { mutableStateOf("") }
     val visible = category.groups.filter { it.name.contains(query, ignoreCase = true) }
 
     DesertScaffold(
         topBar = { TopBanner(title = category.title, subtitle = category.subtitle, onBack = onBack) },
-        bottomBar = { BottomTabs("home") { if (it == "fav") onFavorites() else onHome() } }
+        bottomBar = {
+            BottomTabs("home", strings.tabStart, strings.tabFavorites) {
+                if (it == "fav") onFavorites() else onHome()
+            }
+        }
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(start = 14.dp, end = 14.dp, top = 16.dp, bottom = 24.dp)
         ) {
-            item { SearchField(query, { query = it }, "Name suchen") }
-            item { SectionLabel("${category.groups.size} Einträge") }
+            item {
+                Column {
+                    SearchField(query, { query = it }, strings.searchName)
+                    SectionLabel(strings.entriesCount.format(category.groups.size))
+                }
+            }
 
             if (visible.isEmpty()) {
                 item {
-                    EmptyState(
-                        "Nichts gefunden",
-                        "Für „$query“ gibt es hier keinen Eintrag. Suchbegriff kürzen oder Kategorie wechseln."
-                    )
+                    EmptyState(strings.nothingFoundTitle, strings.nothingFoundGroups.format(query))
                 }
             }
 
@@ -358,7 +386,7 @@ private fun GroupListScreen(
                         Text(group.name, style = Type.TileTitle, color = Palette.Parchment)
                         Text(
                             listOfNotNull(
-                                "${group.sounds.size} Sounds",
+                                strings.soundsCount.format(group.sounds.size),
                                 group.role.takeIf { it.isNotBlank() }
                             ).joinToString(" · "),
                             style = Type.Meta,
@@ -382,6 +410,7 @@ private fun SoundListScreen(
     onHome: () -> Unit,
     onFavorites: () -> Unit
 ) {
+    val strings = viewModel.strings
     var query by remember { mutableStateOf("") }
     val visible = group.sounds.filter {
         it.file.contains(query, ignoreCase = true) || it.label.contains(query, ignoreCase = true)
@@ -396,29 +425,35 @@ private fun SoundListScreen(
         topBar = {
             TopBanner(
                 title = group.name,
-                subtitle = group.role.ifBlank { "${group.sounds.size} Sounds" },
+                subtitle = group.role.ifBlank { strings.soundsCount.format(group.sounds.size) },
                 onBack = onBack,
                 sideColor = sideColor
             )
         },
-        bottomBar = { BottomTabs("home") { if (it == "fav") onFavorites() else onHome() } }
+        bottomBar = {
+            BottomTabs("home", strings.tabStart, strings.tabFavorites) {
+                if (it == "fav") onFavorites() else onHome()
+            }
+        }
     ) {
         SoundList(
             viewModel = viewModel,
             sounds = visible,
             showGroupName = false,
             header = {
-                SearchField(query, { query = it }, "Dateiname oder Art")
-                SectionLabel("${group.sounds.size} Sounds")
+                SearchField(query, { query = it }, strings.searchFile)
+                SectionLabel(strings.soundsCount.format(group.sounds.size))
             },
             emptyContent = {
                 if (group.sounds.isEmpty()) {
                     EmptyState(
-                        "Noch keine Dateien",
-                        "Lege deine Audiodateien unter assets/sounds/${group.categoryId}/${group.id}/ ab und baue die App neu."
+                        strings.noFilesTitle,
+                        strings.noFilesText.format(
+                            "assets/sounds/${group.categoryId}/${group.id}/${viewModel.language.code}/"
+                        )
                     )
                 } else {
-                    EmptyState("Nichts gefunden", "Kein Dateiname passt zu „$query“.")
+                    EmptyState(strings.nothingFoundTitle, strings.nothingFoundSounds.format(query))
                 }
             }
         )
@@ -429,24 +464,26 @@ private fun SoundListScreen(
 
 @Composable
 private fun FavoritesScreen(viewModel: MainViewModel, onHome: () -> Unit) {
+    val strings = viewModel.strings
     val favorites by viewModel.favorites.collectAsState()
     val sounds = viewModel.favoriteSounds(favorites)
 
     DesertScaffold(
-        topBar = { TopBanner(title = "Favoriten", subtitle = "Deine Auswahl", onBack = onHome) },
-        bottomBar = { BottomTabs("fav") { if (it == "home") onHome() } }
+        topBar = {
+            TopBanner(title = strings.favorites, subtitle = strings.favoritesSubtitle, onBack = onHome)
+        },
+        bottomBar = {
+            BottomTabs("fav", strings.tabStart, strings.tabFavorites) {
+                if (it == "home") onHome()
+            }
+        }
     ) {
         SoundList(
             viewModel = viewModel,
             sounds = sounds,
             showGroupName = true,
-            header = { SectionLabel("${sounds.size} gemerkt") },
-            emptyContent = {
-                EmptyState(
-                    "Noch nichts gemerkt",
-                    "Tippe bei einem Sound auf den Stern, dann liegt er hier – auch nach dem Schließen der App."
-                )
-            }
+            header = { SectionLabel(strings.savedCount.format(sounds.size)) },
+            emptyContent = { EmptyState(strings.noFavoritesTitle, strings.noFavoritesText) }
         )
     }
 }
@@ -462,6 +499,7 @@ private fun SoundList(
     emptyContent: @Composable () -> Unit
 ) {
     val context = LocalContext.current
+    val strings = viewModel.strings
     val favorites by viewModel.favorites.collectAsState()
     val playback by viewModel.playback.collectAsState()
 
@@ -484,13 +522,20 @@ private fun SoundList(
                 progress = if (playback.soundId == sound.id) playback.progress else 0f,
                 duration = viewModel.durations[sound.id].orEmpty(),
                 showGroupName = showGroupName,
+                playLabel = strings.play,
+                stopLabel = strings.stop,
+                addFavoriteLabel = strings.addFavorite,
+                removeFavoriteLabel = strings.removeFavorite,
+                downloadLabel = strings.download,
+                shareLabel = strings.share,
                 onPlay = { viewModel.play(sound) },
                 onToggleFavorite = {
-                    viewModel.toggleFavorite(sound.id)
                     val added = !favorites.contains(sound.id)
+                    viewModel.toggleFavorite(sound.id)
                     Toast.makeText(
                         context,
-                        if (added) "${sound.file} zu Favoriten hinzugefügt" else "${sound.file} aus Favoriten entfernt",
+                        if (added) strings.favoriteAdded.format(sound.file)
+                        else strings.favoriteRemoved.format(sound.file),
                         Toast.LENGTH_SHORT
                     ).show()
                 },
@@ -498,13 +543,13 @@ private fun SoundList(
                     val ok = SoundActions.saveToDownloads(context, sound)
                     Toast.makeText(
                         context,
-                        if (ok) "Gespeichert unter Downloads/Crusader Soundboard" else "Speichern nicht möglich",
+                        if (ok) strings.downloadDone else strings.downloadFailed,
                         Toast.LENGTH_SHORT
                     ).show()
                 },
                 onShare = {
-                    val ok = SoundActions.share(context, sound)
-                    if (!ok) Toast.makeText(context, "Teilen nicht möglich", Toast.LENGTH_SHORT).show()
+                    val ok = SoundActions.share(context, sound, strings.shareChooser)
+                    if (!ok) Toast.makeText(context, strings.shareFailed, Toast.LENGTH_SHORT).show()
                 }
             )
         }

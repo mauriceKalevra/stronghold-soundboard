@@ -2,32 +2,56 @@ package com.crusader.soundboard
 
 import android.app.Application
 import android.media.MediaMetadataRetriever
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.crusader.soundboard.audio.AmbientMusic
 import com.crusader.soundboard.audio.IntroMusic
 import com.crusader.soundboard.audio.PlaybackState
 import com.crusader.soundboard.audio.SoundPlayer
 import com.crusader.soundboard.data.Catalog
 import com.crusader.soundboard.data.CatalogRepository
 import com.crusader.soundboard.data.FavoritesStore
+import com.crusader.soundboard.data.Lang
+import com.crusader.soundboard.data.SettingsStore
 import com.crusader.soundboard.data.Sound
+import com.crusader.soundboard.data.Strings
+import com.crusader.soundboard.data.stringsFor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.crusader.soundboard.audio.AmbientMusic
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val favoritesStore = FavoritesStore(application)
+    private val settings = SettingsStore(application)
     private val player = SoundPlayer(application)
     private val intro = IntroMusic(application)
     private val ambient = AmbientMusic(application)
 
-    val catalog: Catalog = CatalogRepository.load(application)
+    /** Sprache der Oberflaeche und der Sounds. */
+    var language by mutableStateOf(settings.language())
+        private set
+
+    var catalog: Catalog by mutableStateOf(CatalogRepository.load(application, language))
+        private set
+
+    val strings: Strings get() = stringsFor(language)
+
+    fun switchLanguage(newLanguage: Lang) {
+        if (newLanguage == language) return
+        stopPlayback()
+        language = newLanguage
+        settings.saveLanguage(newLanguage)
+        catalog = CatalogRepository.load(getApplication(), newLanguage)
+        durations.clear()
+    }
 
     val playback: StateFlow<PlaybackState> = player.state
 
@@ -54,9 +78,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun startIntro() = intro.start()
 
     fun stopIntro() = intro.fadeOut(viewModelScope)
-    /** Läuft einmal pro App-Start auf dem Startbildschirm. */
-    fun startHomeAmbient() = ambient.playOnce(viewModelScope)
 
+    /** Laeuft einmal pro App-Start auf dem Startbildschirm. */
+    fun startHomeAmbient() = ambient.playOnce(viewModelScope)
 
     fun requestDuration(sound: Sound) {
         if (durations.containsKey(sound.id)) return

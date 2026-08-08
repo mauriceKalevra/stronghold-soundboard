@@ -40,7 +40,7 @@ object SoundActions {
     }
 
     /** Legt eine Kopie im Cache ab und oeffnet das Teilen-Menue von Android. */
-    fun share(context: Context, sound: Sound): Boolean = try {
+    fun share(context: Context, sound: Sound, chooserTitle: String = "Sound teilen"): Boolean = try {
         val directory = File(context.cacheDir, "shared")
         if (!directory.exists()) directory.mkdirs()
         val file = File(directory, sound.file)
@@ -54,7 +54,7 @@ object SoundActions {
             putExtra(Intent.EXTRA_SUBJECT, sound.file)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        context.startActivity(Intent.createChooser(intent, "Sound teilen"))
+        context.startActivity(Intent.createChooser(intent, chooserTitle))
         true
     } catch (e: Exception) {
         false

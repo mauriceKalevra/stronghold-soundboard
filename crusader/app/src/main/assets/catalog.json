@@ -6,22 +6,129 @@
       "subtitle": "Sprüche der Gegner",
       "icon": "shield",
       "groups": [
-        { "id": "richard",  "name": "Richard Löwenherz", "role": "König von England",        "side": "kreuzfahrer" },
-        { "id": "saladin",  "name": "Saladin",           "role": "Sultan der Sarazenen",     "side": "sarazenen" },
-        { "id": "sultan",   "name": "Der Sultan",        "role": "Herr der Wüstenstadt",     "side": "sarazenen" },
-        { "id": "caliph",   "name": "Der Kalif",         "role": "Freund des Feuers",        "side": "sarazenen" },
-        { "id": "emir",     "name": "Der Emir",          "role": "Vorsichtiger Verteidiger", "side": "sarazenen" },
-        { "id": "wazir",    "name": "Der Wesir",         "role": "Händler mit Hintergedanken","side": "sarazenen" },
-        { "id": "nizar",    "name": "Nizar",             "role": "Herr der Assassinen",      "side": "sarazenen" },
-        { "id": "sultana",  "name": "Die Sultanin",      "role": "Herrin der Oase",          "side": "sarazenen" },
-        { "id": "sheriff",  "name": "Der Sheriff",       "role": "Steuereintreiber",         "side": "kreuzfahrer" },
-        { "id": "marshal",  "name": "Der Marschall",     "role": "Turnierritter",            "side": "kreuzfahrer" },
-        { "id": "abbot",    "name": "Der Abt",           "role": "Frommer Zuchtmeister",     "side": "kreuzfahrer" },
-        { "id": "rat",      "name": "Die Ratte",         "role": "Feigling im Sold",         "side": "kreuzfahrer" },
-        { "id": "snake",    "name": "Die Schlange",      "role": "Intrigant",                "side": "kreuzfahrer" },
-        { "id": "pig",      "name": "Das Schwein",       "role": "Grobian",                  "side": "kreuzfahrer" },
-        { "id": "wolf",     "name": "Der Wolf",          "role": "Kriegsherr des Nordens",   "side": "kreuzfahrer" }
-      ]
+        {
+          "id": "richard",
+          "name": "Richard Löwenherz",
+          "role": "König von England",
+          "side": "kreuzfahrer",
+          "nameEn": "Richard the Lionheart",
+          "roleEn": "King of England"
+        },
+        {
+          "id": "saladin",
+          "name": "Saladin",
+          "role": "Sultan der Sarazenen",
+          "side": "sarazenen",
+          "nameEn": "Saladin",
+          "roleEn": "Sultan of the Saracens"
+        },
+        {
+          "id": "sultan",
+          "name": "Der Sultan",
+          "role": "Herr der Wüstenstadt",
+          "side": "sarazenen",
+          "nameEn": "The Sultan",
+          "roleEn": "Lord of the desert city"
+        },
+        {
+          "id": "caliph",
+          "name": "Der Kalif",
+          "role": "Freund des Feuers",
+          "side": "sarazenen",
+          "nameEn": "The Caliph",
+          "roleEn": "Friend of fire"
+        },
+        {
+          "id": "emir",
+          "name": "Der Emir",
+          "role": "Vorsichtiger Verteidiger",
+          "side": "sarazenen",
+          "nameEn": "The Emir",
+          "roleEn": "Cautious defender"
+        },
+        {
+          "id": "wazir",
+          "name": "Der Wesir",
+          "role": "Händler mit Hintergedanken",
+          "side": "sarazenen",
+          "nameEn": "The Wazir",
+          "roleEn": "Trader with an agenda"
+        },
+        {
+          "id": "nizar",
+          "name": "Nizar",
+          "role": "Herr der Assassinen",
+          "side": "sarazenen",
+          "nameEn": "Nizar",
+          "roleEn": "Master of assassins"
+        },
+        {
+          "id": "sultana",
+          "name": "Die Sultanin",
+          "role": "Herrin der Oase",
+          "side": "sarazenen",
+          "nameEn": "The Sultana",
+          "roleEn": "Mistress of the oasis"
+        },
+        {
+          "id": "sheriff",
+          "name": "Der Sheriff",
+          "role": "Steuereintreiber",
+          "side": "kreuzfahrer",
+          "nameEn": "The Sheriff",
+          "roleEn": "Tax collector"
+        },
+        {
+          "id": "marshal",
+          "name": "Der Marschall",
+          "role": "Turnierritter",
+          "side": "kreuzfahrer",
+          "nameEn": "The Marshal",
+          "roleEn": "Tournament knight"
+        },
+        {
+          "id": "abbot",
+          "name": "Der Abt",
+          "role": "Frommer Zuchtmeister",
+          "side": "kreuzfahrer",
+          "nameEn": "The Abbot",
+          "roleEn": "Pious taskmaster"
+        },
+        {
+          "id": "rat",
+          "name": "Die Ratte",
+          "role": "Feigling im Sold",
+          "side": "kreuzfahrer",
+          "nameEn": "The Rat",
+          "roleEn": "Coward for hire"
+        },
+        {
+          "id": "snake",
+          "name": "Die Schlange",
+          "role": "Intrigant",
+          "side": "kreuzfahrer",
+          "nameEn": "The Snake",
+          "roleEn": "Schemer"
+        },
+        {
+          "id": "pig",
+          "name": "Das Schwein",
+          "role": "Grobian",
+          "side": "kreuzfahrer",
+          "nameEn": "The Pig",
+          "roleEn": "Brute"
+        },
+        {
+          "id": "wolf",
+          "name": "Der Wolf",
+          "role": "Kriegsherr des Nordens",
+          "side": "kreuzfahrer",
+          "nameEn": "The Wolf",
+          "roleEn": "Warlord of the north"
+        }
+      ],
+      "titleEn": "Characters",
+      "subtitleEn": "Voices of the lords"
     },
     {
       "id": "narrator",
@@ -29,8 +136,17 @@
       "subtitle": "Kampagnen-Kommentar",
       "icon": "scroll",
       "groups": [
-        { "id": "narrator", "name": "Erzähler", "role": "Stimme der Kampagne", "side": "" }
-      ]
+        {
+          "id": "narrator",
+          "name": "Erzähler",
+          "role": "Stimme der Kampagne",
+          "side": "",
+          "nameEn": "Narrator",
+          "roleEn": "Voice of the campaign"
+        }
+      ],
+      "titleEn": "Narrator",
+      "subtitleEn": "Campaign commentary"
     },
     {
       "id": "population",
@@ -38,9 +154,25 @@
       "subtitle": "Bauern, Markt, Jubel",
       "icon": "house",
       "groups": [
-        { "id": "peasants", "name": "Bauern",         "role": "Volk der Burg", "side": "" },
-        { "id": "market",   "name": "Markt & Handel", "role": "Basar",         "side": "" }
-      ]
+        {
+          "id": "peasants",
+          "name": "Bauern",
+          "role": "Volk der Burg",
+          "side": "",
+          "nameEn": "Peasants",
+          "roleEn": "People of the castle"
+        },
+        {
+          "id": "market",
+          "name": "Markt & Handel",
+          "role": "Basar",
+          "side": "",
+          "nameEn": "Market & trade",
+          "roleEn": "Bazaar"
+        }
+      ],
+      "titleEn": "Population",
+      "subtitleEn": "Peasants, market, cheers"
     },
     {
       "id": "units",
@@ -48,11 +180,41 @@
       "subtitle": "Befehle und Schlachtrufe",
       "icon": "sword",
       "groups": [
-        { "id": "archer",   "name": "Bogenschütze", "role": "Fernkampf",             "side": "kreuzfahrer" },
-        { "id": "spearman", "name": "Speerträger",  "role": "Nahkampf",              "side": "kreuzfahrer" },
-        { "id": "assassin", "name": "Assassine",    "role": "Sarazenische Einheit",  "side": "sarazenen" },
-        { "id": "catapult", "name": "Katapult",     "role": "Belagerung",            "side": "" }
-      ]
+        {
+          "id": "archer",
+          "name": "Bogenschütze",
+          "role": "Fernkampf",
+          "side": "kreuzfahrer",
+          "nameEn": "Archer",
+          "roleEn": "Ranged"
+        },
+        {
+          "id": "spearman",
+          "name": "Speerträger",
+          "role": "Nahkampf",
+          "side": "kreuzfahrer",
+          "nameEn": "Spearman",
+          "roleEn": "Melee"
+        },
+        {
+          "id": "assassin",
+          "name": "Assassine",
+          "role": "Sarazenische Einheit",
+          "side": "sarazenen",
+          "nameEn": "Assassin",
+          "roleEn": "Saracen unit"
+        },
+        {
+          "id": "catapult",
+          "name": "Katapult",
+          "role": "Belagerung",
+          "side": "",
+          "nameEn": "Catapult",
+          "roleEn": "Siege"
+        }
+      ],
+      "titleEn": "Units",
+      "subtitleEn": "Orders and battle cries"
     },
     {
       "id": "music",
@@ -60,8 +222,17 @@
       "subtitle": "Themen und Wüstenwind",
       "icon": "note",
       "groups": [
-        { "id": "themes", "name": "Themen & Ambiente", "role": "Musikstücke", "side": "" }
-      ]
+        {
+          "id": "themes",
+          "name": "Themen & Ambiente",
+          "role": "Musikstücke",
+          "side": "",
+          "nameEn": "Themes & ambience",
+          "roleEn": "Music tracks"
+        }
+      ],
+      "titleEn": "Music",
+      "subtitleEn": "Themes and desert wind"
     }
   ]
 }
