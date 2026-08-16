@@ -156,7 +156,7 @@
     },
     {
       "id": "narrator",
-      "title": "Erzähler",
+      "title": "Ansagen",
       "subtitle": "Kommentar und Ratgeber",
       "icon": "scroll",
       "groups": [
@@ -193,7 +193,7 @@
           "roleEn": "Spoken names"
         }
       ],
-      "titleEn": "Narrator",
+      "titleEn": "Announcements",
       "subtitleEn": "Commentary and advisor"
     },
     {
