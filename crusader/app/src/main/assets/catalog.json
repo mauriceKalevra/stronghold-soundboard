@@ -197,32 +197,6 @@
       "subtitleEn": "Commentary and advisor"
     },
     {
-      "id": "population",
-      "title": "Bevölkerung",
-      "subtitle": "Bauern, Markt, Jubel",
-      "icon": "house",
-      "groups": [
-        {
-          "id": "peasants",
-          "name": "Bauern",
-          "role": "Volk der Burg",
-          "side": "",
-          "nameEn": "Peasants",
-          "roleEn": "People of the castle"
-        },
-        {
-          "id": "market",
-          "name": "Markt & Handel",
-          "role": "Basar",
-          "side": "",
-          "nameEn": "Market & trade",
-          "roleEn": "Bazaar"
-        }
-      ],
-      "titleEn": "Population",
-      "subtitleEn": "Peasants, market, cheers"
-    },
-    {
       "id": "units",
       "title": "Einheiten",
       "subtitle": "Befehle und Schlachtrufe",
@@ -375,6 +349,32 @@
       ],
       "titleEn": "Units",
       "subtitleEn": "Orders and battle cries"
+    },
+    {
+      "id": "population",
+      "title": "Bevölkerung",
+      "subtitle": "Bauern, Markt, Jubel",
+      "icon": "house",
+      "groups": [
+        {
+          "id": "peasants",
+          "name": "Bauern",
+          "role": "Volk der Burg",
+          "side": "",
+          "nameEn": "Peasants",
+          "roleEn": "People of the castle"
+        },
+        {
+          "id": "market",
+          "name": "Markt & Handel",
+          "role": "Basar",
+          "side": "",
+          "nameEn": "Market & trade",
+          "roleEn": "Bazaar"
+        }
+      ],
+      "titleEn": "Population",
+      "subtitleEn": "Peasants, market, cheers"
     },
     {
       "id": "music",
