@@ -35,6 +35,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -42,10 +43,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -271,6 +274,102 @@ fun StoneTile(
         verticalAlignment = Alignment.CenterVertically,
         content = content
     )
+}
+
+/** Ordnet Charakter-Ids den hinterlegten Portraitdateien unter assets/bilder zu. */
+private val CharacterPortraitAssets: Map<String, String> = mapOf(
+    "richard" to "bilder/Richard.PNG.webp",
+    "saladin" to "bilder/Saladin.PNG.webp",
+    "sultan" to "bilder/Sultan.webp",
+    "caliph" to "bilder/Caliph_message.PNG.webp",
+    "emir" to "bilder/Emir.PNG.webp",
+    "wazir" to "bilder/Vazir.webp",
+    "nizar" to "bilder/Nizar.PNG.webp",
+    "sheriff" to "bilder/Sheriff.PNG.webp",
+    "marshal" to "bilder/Marshal.PNG.webp",
+    "abbot" to "bilder/Abbot.webp",
+    "rat" to "bilder/Rat1.webp",
+    "snake" to "bilder/The_Snake.webp",
+    "pig" to "bilder/The_Pig1.webp",
+    "wolf" to "bilder/Stronghold_1_Wolf.webp",
+    "lord_ph" to "bilder/Philip.PNG.webp",
+    "lord_fr" to "bilder/Frederick.PNG.webp",
+    "archer" to "bilder/Archer.webp",
+    "arab_archer" to "bilder/A_bowman_icon.webp",
+    "crossbowman" to "bilder/Xbowman_icon.webp",
+    "spearman" to "bilder/Spearman_icon.webp",
+    "pikeman" to "bilder/Pikeman_icon.webp",
+    "maceman" to "bilder/Maceman_icon.webp",
+    "swordsman" to "bilder/Swordsman_icon.webp",
+    "advisor" to "bilder/advisor.jpg",
+    "narrator" to "bilder/advisor.jpg",
+    "briefings" to "bilder/advisor.jpg"
+)
+
+private val assetImageCache = mutableMapOf<String, ImageBitmap?>()
+
+private fun loadAssetImage(context: android.content.Context, path: String): ImageBitmap? =
+    assetImageCache.getOrPut(path) {
+        runCatching {
+            context.assets.open(path).use { android.graphics.BitmapFactory.decodeStream(it).asImageBitmap() }
+        }.getOrNull()
+    }
+
+/**
+ * Steinkachel mit Charakterportrait als Hintergrund, rechts positioniert.
+ * Laedt das Bild aus assets/bilder (siehe CharacterPortraitAssets); falls
+ * (noch) keins hinterlegt ist, wird ein farbiger Platzhalter mit Initiale
+ * angezeigt, damit sich das Layout nicht aendert, sobald eins ergaenzt wird.
+ */
+@Composable
+fun CharacterTile(
+    characterId: String,
+    accentColor: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    val shape = RoundedCornerShape(3.dp)
+    val portraitShape = RoundedCornerShape(3.dp)
+    val context = LocalContext.current
+    val portraitPath = CharacterPortraitAssets[characterId]
+    val portrait = remember(portraitPath) { portraitPath?.let { loadAssetImage(context, it) } }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+            .background(StoneGradient, shape)
+            .border(1.dp, Palette.Edge, shape)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 15.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        content()
+        Spacer(Modifier.width(12.dp))
+        Box(
+            Modifier
+                .size(52.dp)
+                .clip(portraitShape)
+                .background(Palette.StoneDeep)
+                .border(1.dp, Palette.Edge, portraitShape),
+            contentAlignment = Alignment.Center
+        ) {
+            if (portrait != null) {
+                Image(
+                    bitmap = portrait,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Fit
+                )
+            } else {
+                Text(
+                    characterId.take(1).uppercase(),
+                    style = Type.TileTitle,
+                    color = accentColor.copy(alpha = 0.6f)
+                )
+            }
+        }
+    }
 }
 
 @Composable

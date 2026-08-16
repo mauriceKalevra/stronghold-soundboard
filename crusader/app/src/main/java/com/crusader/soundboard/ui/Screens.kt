@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -176,14 +177,14 @@ private fun SplashScreen(viewModel: MainViewModel, onFinished: () -> Unit) {
             ) {
                 Text(
                     text = "STRONGHOLD SOUNDBOARD",
-                    style = Type.Label,
+                    style = Type.Meta.copy(fontSize = 16.sp),
                     color = Palette.Parchment.copy(alpha = 0.45f)
                 )
                 Spacer(Modifier.height(6.dp))
                 Text(
                     text = "Maurice Kalevra",
-                    style = Type.Meta,
-                    color = Palette.Parchment.copy(alpha = 0.32f)
+                    style = Type.Meta.copy(fontSize = 16.sp),
+                    color = Palette.Brass
                 )
             }
 
@@ -370,12 +371,16 @@ private fun GroupListScreen(
             }
 
             items(visible, key = { it.id }) { group ->
-                StoneTile(onClick = { onGroup(group) }) {
-                    val sideColor = when (group.side) {
-                        "sarazenen" -> Palette.Oasis
-                        "kreuzfahrer" -> Palette.Blood
-                        else -> null
-                    }
+                val sideColor = when (group.side) {
+                    "sarazenen" -> Palette.Oasis
+                    "kreuzfahrer" -> Palette.Blood
+                    else -> null
+                }
+                CharacterTile(
+                    characterId = group.id,
+                    accentColor = sideColor ?: Palette.Brass,
+                    onClick = { onGroup(group) }
+                ) {
                     if (sideColor != null) {
                         Box(Modifier.width(4.dp).height(34.dp).background(sideColor))
                     } else {

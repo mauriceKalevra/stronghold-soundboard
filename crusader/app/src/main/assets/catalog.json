@@ -253,14 +253,6 @@
           "roleEn": "Saracen unit"
         },
         {
-          "id": "catapult",
-          "name": "Katapult",
-          "role": "Belagerung",
-          "side": "",
-          "nameEn": "Catapult",
-          "roleEn": "Siege"
-        },
-        {
           "id": "crossbowman",
           "name": "Armbrustschütze",
           "role": "Fernkampf",

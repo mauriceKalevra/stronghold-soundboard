@@ -4,7 +4,18 @@
     android:height="17dp"
     android:viewportWidth="60"
     android:viewportHeight="36">
-    <path android:fillColor="#FFFFFF" android:pathData="M0,0h60v36h-60z" />
-    <path android:fillColor="#CE1124" android:pathData="M25,0h10v36h-10z" />
-    <path android:fillColor="#CE1124" android:pathData="M0,13h60v10h-60z" />
+    <!-- Field -->
+    <path android:fillColor="#012169" android:pathData="M0,0h60v36h-60z" />
+    <!-- White diagonals (Saint Andrew's Cross) -->
+    <path android:fillColor="#FFFFFF" android:pathData="M-2.572,4.287 L57.428,40.287 L62.572,31.713 L2.572,-4.287 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M57.428,-4.287 L-2.572,31.713 L2.572,40.287 L62.572,4.287 Z" />
+    <!-- Red diagonals (Saint Patrick's Cross) -->
+    <path android:fillColor="#C8102E" android:pathData="M-1.029,1.715 L58.971,37.715 L61.029,34.285 L1.029,-1.715 Z" />
+    <path android:fillColor="#C8102E" android:pathData="M58.971,-1.715 L-1.029,34.285 L1.029,37.715 L61.029,1.715 Z" />
+    <!-- White upright cross (fimbriation for Saint George's Cross) -->
+    <path android:fillColor="#FFFFFF" android:pathData="M23,0h14v36h-14z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M0,13h60v10h-60z" />
+    <!-- Red upright cross (Saint George's Cross) -->
+    <path android:fillColor="#C8102E" android:pathData="M27,0h6v36h-6z" />
+    <path android:fillColor="#C8102E" android:pathData="M0,15h60v6h-60z" />
 </vector>
