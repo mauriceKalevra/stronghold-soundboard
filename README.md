@@ -1,6 +1,6 @@
 # Crusader Soundboard – Android-App
 By Maurice Kalevra.
-This is a private project.  
+Ein Stronghold Crusader Soundboard für Android (min v.10)
 
 ---
 
