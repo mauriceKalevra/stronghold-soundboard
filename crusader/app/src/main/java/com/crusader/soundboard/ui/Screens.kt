@@ -523,12 +523,13 @@ private fun SoundList(
             SoundRow(
                 sound = sound,
                 isFavorite = favorites.contains(sound.id),
-                isPlaying = playback.soundId == sound.id,
+                isActive = playback.soundId == sound.id,
+                isPlaying = playback.soundId == sound.id && playback.isPlaying,
                 progress = if (playback.soundId == sound.id) playback.progress else 0f,
                 duration = viewModel.durations[sound.id].orEmpty(),
                 showGroupName = showGroupName,
                 playLabel = strings.play,
-                stopLabel = strings.stop,
+                pauseLabel = strings.pause,
                 addFavoriteLabel = strings.addFavorite,
                 removeFavoriteLabel = strings.removeFavorite,
                 downloadLabel = strings.download,
@@ -555,7 +556,8 @@ private fun SoundList(
                 onShare = {
                     val ok = SoundActions.share(context, sound, strings.shareChooser)
                     if (!ok) Toast.makeText(context, strings.shareFailed, Toast.LENGTH_SHORT).show()
-                }
+                },
+                onSeek = { fraction -> viewModel.seek(fraction) }
             )
         }
     }

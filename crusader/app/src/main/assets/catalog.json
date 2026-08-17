@@ -15,60 +15,20 @@
           "roleEn": "King of England"
         },
         {
-          "id": "saladin",
-          "name": "Saladin",
-          "role": "Sultan der Sarazenen",
-          "side": "sarazenen",
-          "nameEn": "Saladin",
-          "roleEn": "Sultan of the Saracens"
+          "id": "lord_fr",
+          "name": "Fürst (fr)",
+          "role": "Nach dem Anhören umbenennen",
+          "side": "kreuzfahrer",
+          "nameEn": "Lord (fr)",
+          "roleEn": "Rename after listening"
         },
         {
-          "id": "sultan",
-          "name": "Der Sultan",
-          "role": "Herr der Wüstenstadt",
-          "side": "sarazenen",
-          "nameEn": "The Sultan",
-          "roleEn": "Lord of the desert city"
-        },
-        {
-          "id": "caliph",
-          "name": "Der Kalif",
-          "role": "Freund des Feuers",
-          "side": "sarazenen",
-          "nameEn": "The Caliph",
-          "roleEn": "Friend of fire"
-        },
-        {
-          "id": "emir",
-          "name": "Der Emir",
-          "role": "Vorsichtiger Verteidiger",
-          "side": "sarazenen",
-          "nameEn": "The Emir",
-          "roleEn": "Cautious defender"
-        },
-        {
-          "id": "wazir",
-          "name": "Der Wesir",
-          "role": "Händler mit Hintergedanken",
-          "side": "sarazenen",
-          "nameEn": "The Wazir",
-          "roleEn": "Trader with an agenda"
-        },
-        {
-          "id": "nizar",
-          "name": "Nizar",
-          "role": "Herr der Assassinen",
-          "side": "sarazenen",
-          "nameEn": "Nizar",
-          "roleEn": "Master of assassins"
-        },
-        {
-          "id": "sultana",
-          "name": "Die Sultanin",
-          "role": "Herrin der Oase",
-          "side": "sarazenen",
-          "nameEn": "The Sultana",
-          "roleEn": "Mistress of the oasis"
+          "id": "lord_ph",
+          "name": "Fürst (ph)",
+          "role": "Nach dem Anhören umbenennen",
+          "side": "kreuzfahrer",
+          "nameEn": "Lord (ph)",
+          "roleEn": "Rename after listening"
         },
         {
           "id": "sheriff",
@@ -95,20 +55,12 @@
           "roleEn": "Pious taskmaster"
         },
         {
-          "id": "rat",
-          "name": "Die Ratte",
-          "role": "Feigling im Sold",
+          "id": "wolf",
+          "name": "Der Wolf",
+          "role": "Kriegsherr des Nordens",
           "side": "kreuzfahrer",
-          "nameEn": "The Rat",
-          "roleEn": "Coward for hire"
-        },
-        {
-          "id": "snake",
-          "name": "Die Schlange",
-          "role": "Intrigant",
-          "side": "kreuzfahrer",
-          "nameEn": "The Snake",
-          "roleEn": "Schemer"
+          "nameEn": "The Wolf",
+          "roleEn": "Warlord of the north"
         },
         {
           "id": "pig",
@@ -119,28 +71,76 @@
           "roleEn": "Brute"
         },
         {
-          "id": "wolf",
-          "name": "Der Wolf",
-          "role": "Kriegsherr des Nordens",
+          "id": "snake",
+          "name": "Die Schlange",
+          "role": "Intrigant",
           "side": "kreuzfahrer",
-          "nameEn": "The Wolf",
-          "roleEn": "Warlord of the north"
+          "nameEn": "The Snake",
+          "roleEn": "Schemer"
         },
         {
-          "id": "lord_ph",
-          "name": "Fürst (ph)",
-          "role": "Nach dem Anhören umbenennen",
-          "side": "",
-          "nameEn": "Lord (ph)",
-          "roleEn": "Rename after listening"
+          "id": "rat",
+          "name": "Die Ratte",
+          "role": "Feigling im Sold",
+          "side": "kreuzfahrer",
+          "nameEn": "The Rat",
+          "roleEn": "Coward for hire"
         },
         {
-          "id": "lord_fr",
-          "name": "Fürst (fr)",
-          "role": "Nach dem Anhören umbenennen",
-          "side": "",
-          "nameEn": "Lord (fr)",
-          "roleEn": "Rename after listening"
+          "id": "saladin",
+          "name": "Saladin",
+          "role": "Sultan der Sarazenen",
+          "side": "sarazenen",
+          "nameEn": "Saladin",
+          "roleEn": "Sultan of the Saracens"
+        },
+        {
+          "id": "caliph",
+          "name": "Der Kalif",
+          "role": "Freund des Feuers",
+          "side": "sarazenen",
+          "nameEn": "The Caliph",
+          "roleEn": "Friend of fire"
+        },
+        {
+          "id": "sultan",
+          "name": "Der Sultan",
+          "role": "Herr der Wüstenstadt",
+          "side": "sarazenen",
+          "nameEn": "The Sultan",
+          "roleEn": "Lord of the desert city"
+        },
+        {
+          "id": "emir",
+          "name": "Der Emir",
+          "role": "Vorsichtiger Verteidiger",
+          "side": "sarazenen",
+          "nameEn": "The Emir",
+          "roleEn": "Cautious defender"
+        },
+        {
+          "id": "wazir",
+          "name": "Der Wesir",
+          "role": "Händler mit Hintergedanken",
+          "side": "sarazenen",
+          "nameEn": "The Wazir",
+          "roleEn": "Trader with an agenda"
+        },
+        {
+          "id": "sultana",
+          "name": "Die Sultanin",
+          "role": "Herrin der Oase",
+          "side": "sarazenen",
+          "nameEn": "The Sultana",
+          "roleEn": "Mistress of the oasis"
+        },
+        {
+          "id": "nizar",
+          "name": "Nizar",
+          "role": "Herr der Assassinen",
+          "side": "sarazenen",
+          "nameEn": "Nizar",
+          "roleEn": "Master of assassins"
         },
         {
           "id": "genie",
@@ -203,14 +203,6 @@
       "icon": "sword",
       "groups": [
         {
-          "id": "archer",
-          "name": "Bogenschütze",
-          "role": "Fernkampf",
-          "side": "kreuzfahrer",
-          "nameEn": "Archer",
-          "roleEn": "Ranged"
-        },
-        {
           "id": "spearman",
           "name": "Speerträger",
           "role": "Nahkampf",
@@ -219,12 +211,12 @@
           "roleEn": "Melee"
         },
         {
-          "id": "assassin",
-          "name": "Assassine",
-          "role": "Sarazenische Einheit",
-          "side": "sarazenen",
-          "nameEn": "Assassin",
-          "roleEn": "Saracen unit"
+          "id": "archer",
+          "name": "Bogenschütze",
+          "role": "Fernkampf",
+          "side": "kreuzfahrer",
+          "nameEn": "Archer",
+          "roleEn": "Ranged"
         },
         {
           "id": "crossbowman",
@@ -235,12 +227,12 @@
           "roleEn": "Ranged"
         },
         {
-          "id": "pikeman",
-          "name": "Pikenier",
-          "role": "Nahkampf",
+          "id": "swordsman",
+          "name": "Schwertkämpfer",
+          "role": "Schwere Infanterie",
           "side": "kreuzfahrer",
-          "nameEn": "Pikeman",
-          "roleEn": "Melee"
+          "nameEn": "Swordsman",
+          "roleEn": "Heavy infantry"
         },
         {
           "id": "maceman",
@@ -251,12 +243,12 @@
           "roleEn": "Melee"
         },
         {
-          "id": "swordsman",
-          "name": "Schwertkämpfer",
-          "role": "Schwere Infanterie",
+          "id": "pikeman",
+          "name": "Pikenier",
+          "role": "Nahkampf",
           "side": "kreuzfahrer",
-          "nameEn": "Swordsman",
-          "roleEn": "Heavy infantry"
+          "nameEn": "Pikeman",
+          "roleEn": "Melee"
         },
         {
           "id": "knight",
@@ -329,6 +321,14 @@
           "side": "sarazenen",
           "nameEn": "Horse archer",
           "roleEn": "Mounted"
+        },
+        {
+          "id": "assassin",
+          "name": "Assassine",
+          "role": "Sarazenische Einheit",
+          "side": "sarazenen",
+          "nameEn": "Assassin",
+          "roleEn": "Saracen unit"
         },
         {
           "id": "slave",

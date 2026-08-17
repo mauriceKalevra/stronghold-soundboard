@@ -18,10 +18,11 @@ import kotlinx.coroutines.launch
 
 data class PlaybackState(
     val soundId: String? = null,
-    val progress: Float = 0f
+    val progress: Float = 0f,
+    val isPlaying: Boolean = false
 )
 
-/** Spielt genau einen Sound zur Zeit, direkt aus den Assets. */
+/** Spielt genau einen Sound zur Zeit, direkt aus den Assets. Pausieren behaelt die Stelle. */
 class SoundPlayer(private val context: Context) {
 
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -31,9 +32,17 @@ class SoundPlayer(private val context: Context) {
     private val _state = MutableStateFlow(PlaybackState())
     val state: StateFlow<PlaybackState> = _state.asStateFlow()
 
-    /** Erneutes Tippen auf den laufenden Sound stoppt ihn. */
+    /**
+     * Tippen auf den geladenen Sound pausiert oder setzt fort, an derselben Stelle.
+     * Tippen auf einen anderen Sound startet ihn neu von vorn.
+     */
     fun toggle(sound: Sound) {
-        if (_state.value.soundId == sound.id) stop() else play(sound)
+        val current = _state.value
+        when {
+            current.soundId != sound.id -> play(sound)
+            current.isPlaying -> pause()
+            else -> resume()
+        }
     }
 
     fun play(sound: Sound) {
@@ -54,11 +63,30 @@ class SoundPlayer(private val context: Context) {
             mediaPlayer.prepare()
             mediaPlayer.start()
             player = mediaPlayer
-            _state.value = PlaybackState(sound.id, 0f)
+            _state.value = PlaybackState(sound.id, 0f, isPlaying = true)
             startTicker(sound.id)
         } catch (e: Exception) {
             _state.value = PlaybackState()
         }
+    }
+
+    /** Haelt den Sound an, ohne ihn freizugeben – die Stelle bleibt erhalten. */
+    fun pause() {
+        val active = player ?: return
+        ticker?.cancel()
+        ticker = null
+        val progress = runCatching { active.progressFraction() }.getOrNull()
+        runCatching { active.pause() }
+        _state.value = _state.value.copy(progress = progress ?: _state.value.progress, isPlaying = false)
+    }
+
+    /** Spielt den pausierten Sound ab derselben Stelle weiter. */
+    fun resume() {
+        val active = player ?: return
+        val soundId = _state.value.soundId ?: return
+        runCatching { active.start() }
+        _state.value = _state.value.copy(isPlaying = true)
+        startTicker(soundId)
     }
 
     private fun startTicker(soundId: String) {
@@ -67,17 +95,32 @@ class SoundPlayer(private val context: Context) {
             while (isActive) {
                 val active = player ?: break
                 val progress = try {
-                    val duration = active.duration.coerceAtLeast(1)
-                    (active.currentPosition.toFloat() / duration).coerceIn(0f, 1f)
+                    active.progressFraction()
                 } catch (e: Exception) {
                     null
                 }
                 if (progress == null) break
-                _state.value = PlaybackState(soundId, progress)
+                _state.value = PlaybackState(soundId, progress, isPlaying = true)
                 delay(40)
             }
         }
     }
+
+    private fun MediaPlayer.progressFraction(): Float {
+        val duration = duration.coerceAtLeast(1)
+        return (currentPosition.toFloat() / duration).coerceIn(0f, 1f)
+    }
+
+    /** Springt an die gegebene Stelle (0f..1f) im geladenen Sound, egal ob gerade pausiert. */
+    fun seekTo(fraction: Float) {
+        val active = player ?: return
+        val clamped = fraction.coerceIn(0f, 1f)
+        val duration = active.duration.coerceAtLeast(1)
+        active.seekTo((clamped * duration).toInt())
+        _state.value = _state.value.copy(progress = clamped)
+    }
+
+    /** Stoppt vollstaendig und gibt den Player frei – die Stelle geht verloren. */
     fun stop() {
         ticker?.cancel()
         ticker = null

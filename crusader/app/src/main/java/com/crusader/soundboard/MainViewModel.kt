@@ -65,6 +65,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun stopPlayback() = player.stop()
 
+    fun seek(fraction: Float) = player.seekTo(fraction)
+
     fun toggleFavorite(id: String) {
         val next = _favorites.value.toMutableSet()
         if (!next.add(id)) next.remove(id)

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,17 +26,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -278,22 +285,22 @@ fun StoneTile(
 
 /** Ordnet Charakter-Ids den hinterlegten Portraitdateien unter assets/bilder zu. */
 private val CharacterPortraitAssets: Map<String, String> = mapOf(
-    "richard" to "bilder/Richard.PNG.webp",
-    "saladin" to "bilder/Saladin.PNG.webp",
-    "sultan" to "bilder/Sultan.webp",
-    "caliph" to "bilder/Caliph_message.PNG.webp",
-    "emir" to "bilder/Emir.PNG.webp",
-    "wazir" to "bilder/Vazir.webp",
-    "nizar" to "bilder/Nizar.PNG.webp",
-    "sheriff" to "bilder/Sheriff.PNG.webp",
-    "marshal" to "bilder/Marshal.PNG.webp",
-    "abbot" to "bilder/Abbot.webp",
-    "rat" to "bilder/Rat1.webp",
-    "snake" to "bilder/The_Snake.webp",
-    "pig" to "bilder/The_Pig1.webp",
-    "wolf" to "bilder/Stronghold_1_Wolf.webp",
-    "lord_ph" to "bilder/Philip.PNG.webp",
-    "lord_fr" to "bilder/Frederick.PNG.webp",
+    "richard" to "bilder/Richard_ai.jpg",
+    "saladin" to "bilder/Saladin_ai.jpg",
+    "sultan" to "bilder/Sultan_ai.jpg",
+    "caliph" to "bilder/Caliph_ai.jpg",
+    "emir" to "bilder/Emir_ai.jpg",
+    "wazir" to "bilder/Wazir_ai.jpg",
+    "nizar" to "bilder/Nizar_ai.jpg",
+    "sheriff" to "bilder/Sheriff_ai.jpg",
+    "marshal" to "bilder/Marshal_ai.jpg",
+    "abbot" to "bilder/Abbot_ai.jpg",
+    "rat" to "bilder/Rat_ai.jpg",
+    "snake" to "bilder/Snake_ai.jpg",
+    "pig" to "bilder/Pig_ai.jpg",
+    "wolf" to "bilder/Wolf_ai.jpg",
+    "lord_ph" to "bilder/Phillip_ai.jpg",
+    "lord_fr" to "bilder/Frederick_ai.jpg",
     "archer" to "bilder/Archer.webp",
     "arab_archer" to "bilder/A_bowman_icon.webp",
     "crossbowman" to "bilder/Xbowman_icon.webp",
@@ -316,7 +323,7 @@ private fun loadAssetImage(context: android.content.Context, path: String): Imag
     }
 
 /**
- * Steinkachel mit Charakterportrait als Hintergrund, rechts positioniert.
+ * Steinkachel mit Charakterportrait als Icon links, Name/Infos rechts davon.
  * Laedt das Bild aus assets/bilder (siehe CharacterPortraitAssets); falls
  * (noch) keins hinterlegt ist, wird ein farbiger Platzhalter mit Initiale
  * angezeigt, damit sich das Layout nicht aendert, sobald eins ergaenzt wird.
@@ -344,8 +351,6 @@ fun CharacterTile(
             .padding(horizontal = 14.dp, vertical = 15.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        content()
-        Spacer(Modifier.width(12.dp))
         Box(
             Modifier
                 .size(52.dp)
@@ -369,6 +374,8 @@ fun CharacterTile(
                 )
             }
         }
+        Spacer(Modifier.width(12.dp))
+        content()
     }
 }
 
@@ -387,16 +394,18 @@ fun TileGlyph(icon: ImageVector) {
 }
 
 /** Eine Sound-Kachel mit Abspielen, Stern, Download und Teilen. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SoundRow(
     sound: Sound,
     isFavorite: Boolean,
+    isActive: Boolean,
     isPlaying: Boolean,
     progress: Float,
     duration: String,
     showGroupName: Boolean,
     playLabel: String,
-    stopLabel: String,
+    pauseLabel: String,
     addFavoriteLabel: String,
     removeFavoriteLabel: String,
     downloadLabel: String,
@@ -404,7 +413,8 @@ fun SoundRow(
     onPlay: () -> Unit,
     onToggleFavorite: () -> Unit,
     onDownload: () -> Unit,
-    onShare: () -> Unit
+    onShare: () -> Unit,
+    onSeek: (Float) -> Unit
 ) {
     val shape = RoundedCornerShape(3.dp)
     val meta = buildString {
@@ -412,6 +422,7 @@ fun SoundRow(
         if (duration.isNotBlank()) append(" · ").append(duration)
         if (showGroupName) append(" · ").append(sound.groupName)
     }
+    var dragProgress by remember(sound.id) { mutableStateOf<Float?>(null) }
     Box(
         Modifier
             .fillMaxWidth()
@@ -420,64 +431,94 @@ fun SoundRow(
             .border(1.dp, Palette.Edge, shape)
             .clickable(onClick = onPlay)
     ) {
-        Row(
-            Modifier.fillMaxWidth().padding(start = 12.dp, end = 6.dp, top = 12.dp, bottom = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                Modifier
-                    .size(40.dp)
-                    .background(if (isPlaying) Palette.Brass else Palette.StoneDeep, CircleShape)
-                    .border(1.dp, if (isPlaying) Palette.Brass else Palette.Edge, CircleShape)
-                    .clickable(onClick = onPlay),
-                contentAlignment = Alignment.Center
+        Column {
+            Row(
+                Modifier.fillMaxWidth().padding(start = 12.dp, end = 6.dp, top = 12.dp, bottom = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                    contentDescription = if (isPlaying) stopLabel else playLabel,
-                    tint = if (isPlaying) Palette.Night else Palette.Brass,
-                    modifier = Modifier.size(18.dp)
+                Box(
+                    Modifier
+                        .size(40.dp)
+                        .background(if (isActive) Palette.Brass else Palette.StoneDeep, CircleShape)
+                        .border(1.dp, if (isActive) Palette.Brass else Palette.Edge, CircleShape)
+                        .clickable(onClick = onPlay),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                        contentDescription = if (isPlaying) pauseLabel else playLabel,
+                        tint = if (isActive) Palette.Night else Palette.Brass,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                Spacer(Modifier.width(10.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        text = sound.file,
+                        style = Type.File,
+                        color = if (isActive) Palette.Brass else Palette.Parchment
+                    )
+                    Text(
+                        text = meta,
+                        style = Type.Meta,
+                        color = Palette.InkDim,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(top = 3.dp)
+                    )
+                }
+                IconButton(onClick = onToggleFavorite, modifier = Modifier.size(36.dp)) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Star else Icons.Filled.StarBorder,
+                        contentDescription = if (isFavorite) removeFavoriteLabel else addFavoriteLabel,
+                        tint = if (isFavorite) Palette.Brass else Palette.InkDim,
+                        modifier = Modifier.size(19.dp)
+                    )
+                }
+                IconButton(onClick = onDownload, modifier = Modifier.size(36.dp)) {
+                    Icon(Icons.Filled.Download, contentDescription = downloadLabel, tint = Palette.InkDim, modifier = Modifier.size(18.dp))
+                }
+                IconButton(onClick = onShare, modifier = Modifier.size(36.dp)) {
+                    Icon(Icons.Filled.Share, contentDescription = shareLabel, tint = Palette.InkDim, modifier = Modifier.size(17.dp))
+                }
+            }
+            if (isActive) {
+                Slider(
+                    value = dragProgress ?: progress.coerceIn(0f, 1f),
+                    onValueChange = {
+                        dragProgress = it
+                        onSeek(it)
+                    },
+                    onValueChangeFinished = { dragProgress = null },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp, end = 8.dp, bottom = 6.dp)
+                        .height(28.dp),
+                    colors = SliderDefaults.colors(
+                        thumbColor = Palette.Brass,
+                        activeTrackColor = Palette.Ember,
+                        inactiveTrackColor = Palette.StoneDeep
+                    ),
+                    track = { state ->
+                        val fraction = (state.value - state.valueRange.start) /
+                            (state.valueRange.endInclusive - state.valueRange.start)
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(6.dp)
+                                .clip(RoundedCornerShape(3.dp))
+                                .background(Palette.StoneDeep)
+                        ) {
+                            Box(
+                                Modifier
+                                    .fillMaxWidth(fraction.coerceIn(0f, 1f))
+                                    .fillMaxHeight()
+                                    .background(Palette.Ember)
+                            )
+                        }
+                    }
                 )
             }
-            Spacer(Modifier.width(10.dp))
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = sound.file,
-                    style = Type.File,
-                    color = if (isPlaying) Palette.Brass else Palette.Parchment
-                )
-                Text(
-                    text = meta,
-                    style = Type.Meta,
-                    color = Palette.InkDim,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 3.dp)
-                )
-            }
-            IconButton(onClick = onToggleFavorite, modifier = Modifier.size(36.dp)) {
-                Icon(
-                    imageVector = if (isFavorite) Icons.Filled.Star else Icons.Filled.StarBorder,
-                    contentDescription = if (isFavorite) removeFavoriteLabel else addFavoriteLabel,
-                    tint = if (isFavorite) Palette.Brass else Palette.InkDim,
-                    modifier = Modifier.size(19.dp)
-                )
-            }
-            IconButton(onClick = onDownload, modifier = Modifier.size(36.dp)) {
-                Icon(Icons.Filled.Download, contentDescription = downloadLabel, tint = Palette.InkDim, modifier = Modifier.size(18.dp))
-            }
-            IconButton(onClick = onShare, modifier = Modifier.size(36.dp)) {
-                Icon(Icons.Filled.Share, contentDescription = shareLabel, tint = Palette.InkDim, modifier = Modifier.size(17.dp))
-            }
-        }
-        if (isPlaying) {
-            Box(
-                Modifier
-                    .align(Alignment.BottomStart)
-                    .fillMaxWidth(progress.coerceIn(0.002f, 1f))
-                    .height(2.dp)
-                    .background(Palette.Ember)
-            )
         }
     }
 }
