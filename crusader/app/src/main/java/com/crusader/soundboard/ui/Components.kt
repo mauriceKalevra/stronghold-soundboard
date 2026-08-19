@@ -444,7 +444,6 @@ fun SoundRow(
             .border(1.dp, Palette.Edge, shape)
             .clickable(onClick = onPlay)
     ) {
-        Column {
             Row(
                 Modifier.fillMaxWidth().padding(start = 12.dp, end = 6.dp, top = 12.dp, bottom = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
