@@ -436,7 +436,7 @@ fun SoundRow(
         if (showGroupName) append(" · ").append(sound.groupName)
     }
     var dragProgress by remember(sound.id) { mutableStateOf<Float?>(null) }
-    Box(
+    Column(
         Modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp)
@@ -466,7 +466,7 @@ fun SoundRow(
                 Spacer(Modifier.width(10.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = sound.file,
+                        text = sound.title,
                         style = Type.File,
                         color = if (isActive) Palette.Brass else Palette.Parchment
                     )
@@ -533,7 +533,6 @@ fun SoundRow(
             }
         }
     }
-}
 
 /** Leerer Zustand mit Hinweis, was als Naechstes zu tun ist. */
 @Composable

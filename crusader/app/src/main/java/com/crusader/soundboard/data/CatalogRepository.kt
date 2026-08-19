@@ -86,6 +86,7 @@ object CatalogRepository {
         val root = JSONObject(raw)
         val categoriesJson = root.getJSONArray("categories")
         val categories = ArrayList<Category>(categoriesJson.length())
+        val transcribedTitles = loadTranscribedTitles(context)
 
         for (i in 0 until categoriesJson.length()) {
             val categoryJson = categoriesJson.getJSONObject(i)
@@ -100,12 +101,14 @@ object CatalogRepository {
                 val directory = soundDirectory(context, categoryId, groupId, lang)
 
                 val sounds = listAudioFiles(context, directory).map { fileName ->
+                    val assetPath = "$directory/$fileName"
                     Sound(
                         // Die Kennung bleibt ohne Sprachordner, damit Favoriten
                         // einen Sprachwechsel ueberstehen.
                         id = "sounds/$categoryId/$groupId/$fileName",
                         file = fileName,
-                        assetPath = "$directory/$fileName",
+                        assetPath = assetPath,
+                        title = transcribedTitles[assetPath] ?: titleFor(fileName),
                         label = labelFor(fileName, lang),
                         groupId = groupId,
                         groupName = groupName,
@@ -165,6 +168,27 @@ object CatalogRepository {
             ?.filter { name -> AUDIO_EXTENSIONS.any { name.endsWith(it, ignoreCase = true) } }
             ?.sorted()
             ?: emptyList()
+
+    /**
+     * Fuer Charaktere, Ansagen, Einheiten, Bevoelkerung und Mehrspieler liegen echte
+     * Sprach-Transkripte vor (assets/sound_titles.json, per Speech-to-Text erzeugt).
+     * Fehlt ein Eintrag (z. B. Geraeusche/Musik ohne Sprache), greift titleFor().
+     */
+    private fun loadTranscribedTitles(context: Context): Map<String, String> =
+        runCatching {
+            val raw = context.assets.open("sound_titles.json").bufferedReader().use { it.readText() }
+            val json = JSONObject(raw)
+            val map = HashMap<String, String>(json.length())
+            json.keys().forEach { key -> map[key] = json.getString(key) }
+            map
+        }.getOrDefault(emptyMap())
+
+    /** Aus "ri_anger_02.mp3" werden die ersten Wörter "Ri Anger 02" statt des rohen Dateinamens. */
+    private fun titleFor(fileName: String): String {
+        val base = fileName.substringBeforeLast('.')
+        val words = base.split('_', '-').filter { it.isNotBlank() }
+        return words.take(4).joinToString(" ") { word -> word.replaceFirstChar { it.uppercaseChar() } }
+    }
 
     /** Aus "ri_anger_02.mp3" wird "Wut" bzw. "Anger". */
     private fun labelFor(fileName: String, lang: Lang): String {

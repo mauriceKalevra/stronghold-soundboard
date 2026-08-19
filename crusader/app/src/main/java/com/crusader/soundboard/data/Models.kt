@@ -5,6 +5,7 @@ data class Sound(
     val id: String,
     val file: String,
     val assetPath: String,
+    val title: String,
     val label: String,
     val groupId: String,
     val groupName: String,

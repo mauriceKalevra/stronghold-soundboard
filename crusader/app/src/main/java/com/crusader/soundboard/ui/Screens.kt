@@ -574,8 +574,8 @@ private fun SoundList(
                     viewModel.toggleFavorite(sound.id)
                     Toast.makeText(
                         context,
-                        if (added) strings.favoriteAdded.format(sound.file)
-                        else strings.favoriteRemoved.format(sound.file),
+                        if (added) strings.favoriteAdded.format(sound.title)
+                        else strings.favoriteRemoved.format(sound.title),
                         Toast.LENGTH_SHORT
                     ).show()
                 },
