@@ -60,6 +60,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.crusader.soundboard.R
 import com.crusader.soundboard.data.Sound
@@ -301,13 +302,24 @@ private val CharacterPortraitAssets: Map<String, String> = mapOf(
     "wolf" to "bilder/Wolf_ai.jpg",
     "lord_ph" to "bilder/Phillip_ai.jpg",
     "lord_fr" to "bilder/Frederick_ai.jpg",
-    "archer" to "bilder/Archer.webp",
-    "arab_archer" to "bilder/A_bowman_icon.webp",
-    "crossbowman" to "bilder/Xbowman_icon.webp",
-    "spearman" to "bilder/Spearman_icon.webp",
-    "pikeman" to "bilder/Pikeman_icon.webp",
-    "maceman" to "bilder/Maceman_icon.webp",
-    "swordsman" to "bilder/Swordsman_icon.webp",
+    "archer" to "bilder/units/Archer.png",
+    "arab_archer" to "bilder/units/Arab_archer.png",
+    "arab_swordsman" to "bilder/units/Arab_swordsman.png",
+    "crossbowman" to "bilder/units/Crossbowman.png",
+    "spearman" to "bilder/units/Spearman.png",
+    "pikeman" to "bilder/units/Pikeman.png",
+    "maceman" to "bilder/units/Maceman.png",
+    "swordsman" to "bilder/units/Swordsman.png",
+    "knight" to "bilder/units/Knight.png",
+    "monk" to "bilder/units/Monk.png",
+    "engineer" to "bilder/units/Engineer.png",
+    "tunneler" to "bilder/units/Engineer.png",
+    "ladderman" to "bilder/units/Ladderman.png",
+    "slinger" to "bilder/units/Slinger.png",
+    "horsearcher" to "bilder/units/Horsearcher.png",
+    "assassin" to "bilder/units/Assassin.png",
+    "slave" to "bilder/units/Slave.png",
+    "grenadier" to "bilder/units/Grenadier.png",
     "advisor" to "bilder/advisor.jpg",
     "narrator" to "bilder/advisor.jpg",
     "briefings" to "bilder/advisor.jpg"
@@ -334,6 +346,7 @@ fun CharacterTile(
     accentColor: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    portraitSize: Dp = 52.dp,
     content: @Composable RowScope.() -> Unit
 ) {
     val shape = RoundedCornerShape(3.dp)
@@ -353,7 +366,7 @@ fun CharacterTile(
     ) {
         Box(
             Modifier
-                .size(52.dp)
+                .size(portraitSize)
                 .clip(portraitShape)
                 .background(Palette.StoneDeep)
                 .border(1.dp, Palette.Edge, portraitShape),

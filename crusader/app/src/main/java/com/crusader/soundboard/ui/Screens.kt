@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -89,6 +90,9 @@ fun SoundboardApp(viewModel: MainViewModel) {
                     navController.navigate("splash") {
                         popUpTo("home") { inclusive = true }
                     }
+                },
+                onRandomSound = { sound ->
+                    navController.navigate("group/${sound.categoryId}/${sound.groupId}")
                 }
             )
         }
@@ -235,11 +239,13 @@ private fun HomeScreen(
     viewModel: MainViewModel,
     onCategory: (Category) -> Unit,
     onFavorites: () -> Unit,
-    onReplayIntro: () -> Unit
+    onReplayIntro: () -> Unit,
+    onRandomSound: (Sound) -> Unit
 ) {
     val strings = viewModel.strings
     val favorites by viewModel.favorites.collectAsState()
     val catalog = viewModel.catalog
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) { viewModel.startHomeAmbient() }
 
@@ -317,6 +323,33 @@ private fun HomeScreen(
                     }
                 }
             }
+
+            item {
+                StoneTile(onClick = {
+                    val sound = catalog.allSounds.randomOrNull()
+                    if (sound != null) {
+                        viewModel.play(sound)
+                        Toast.makeText(
+                            context,
+                            strings.randomSoundToast.format(sound.groupName, sound.label),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        onRandomSound(sound)
+                    }
+                }) {
+                    TileGlyph(Icons.Filled.Shuffle)
+                    Spacer(Modifier.width(13.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(strings.randomSound, style = Type.TileTitle, color = Palette.Parchment)
+                        Text(
+                            strings.randomSoundSubtitle,
+                            style = Type.Meta,
+                            color = Palette.InkDim,
+                            modifier = Modifier.padding(top = 3.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -379,7 +412,8 @@ private fun GroupListScreen(
                 CharacterTile(
                     characterId = group.id,
                     accentColor = sideColor ?: Palette.Brass,
-                    onClick = { onGroup(group) }
+                    onClick = { onGroup(group) },
+                    portraitSize = if (category.id == "units") 68.dp else 52.dp
                 ) {
                     if (sideColor != null) {
                         Box(Modifier.width(4.dp).height(34.dp).background(sideColor))
