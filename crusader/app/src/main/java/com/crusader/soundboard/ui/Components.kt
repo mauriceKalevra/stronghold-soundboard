@@ -63,6 +63,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.crusader.soundboard.R
+import com.crusader.soundboard.audio.playTileClickSound
 import com.crusader.soundboard.data.Sound
 
 /** Grundgeruest: Pixelwueste im Hintergrund, darueber Kopfzeile, Inhalt, Tableiste. */
@@ -271,13 +272,14 @@ fun StoneTile(
     content: @Composable RowScope.() -> Unit
 ) {
     val shape = RoundedCornerShape(3.dp)
+    val context = LocalContext.current
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp)
             .background(StoneGradient, shape)
             .border(1.dp, Palette.Edge, shape)
-            .clickable(onClick = onClick)
+            .clickable(onClick = { playTileClickSound(context); onClick() })
             .padding(horizontal = 14.dp, vertical = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
         content = content
@@ -360,7 +362,7 @@ fun CharacterTile(
             .padding(bottom = 10.dp)
             .background(StoneGradient, shape)
             .border(1.dp, Palette.Edge, shape)
-            .clickable(onClick = onClick)
+            .clickable(onClick = { playTileClickSound(context); onClick() })
             .padding(horizontal = 14.dp, vertical = 15.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
