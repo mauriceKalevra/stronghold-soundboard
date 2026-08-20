@@ -184,8 +184,9 @@ private fun TabItem(
     onClick: () -> Unit
 ) {
     val tint = if (active) Palette.Brass else Palette.InkDim
+    val context = LocalContext.current
     Column(
-        modifier = modifier.clickable(onClick = onClick).padding(vertical = 6.dp),
+        modifier = modifier.clickable(onClick = { playTileClickSound(context); onClick() }).padding(vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -252,6 +253,7 @@ fun FlagButton(
     onClick: () -> Unit
 ) {
     val shape = RoundedCornerShape(2.dp)
+    val context = LocalContext.current
     Image(
         painter = painterResource(flagRes),
         contentDescription = contentDescription,
@@ -260,7 +262,7 @@ fun FlagButton(
             .alpha(if (active) 1f else 0.4f)
             .clip(shape)
             .border(1.dp, if (active) Palette.Brass else Palette.Edge, shape)
-            .clickable(onClick = onClick)
+            .clickable(onClick = { playTileClickSound(context); onClick() })
     )
 }
 
