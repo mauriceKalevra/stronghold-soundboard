@@ -243,7 +243,6 @@ private fun HomeScreen(
     onRandomSound: (Sound) -> Unit
 ) {
     val strings = viewModel.strings
-    val favorites by viewModel.favorites.collectAsState()
     val catalog = viewModel.catalog
     val context = LocalContext.current
 
@@ -300,22 +299,6 @@ private fun HomeScreen(
                         Text(category.title, style = Type.TileTitle, color = Palette.Parchment)
                         Text(
                             strings.soundsCount.format(category.soundCount) + " · " + category.subtitle,
-                            style = Type.Meta,
-                            color = Palette.InkDim,
-                            modifier = Modifier.padding(top = 3.dp)
-                        )
-                    }
-                }
-            }
-
-            item {
-                StoneTile(onClick = onFavorites) {
-                    TileGlyph(Icons.Filled.Star)
-                    Spacer(Modifier.width(13.dp))
-                    Column(Modifier.weight(1f)) {
-                        Text(strings.favorites, style = Type.TileTitle, color = Palette.Parchment)
-                        Text(
-                            strings.savedCount.format(favorites.size),
                             style = Type.Meta,
                             color = Palette.InkDim,
                             modifier = Modifier.padding(top = 3.dp)
