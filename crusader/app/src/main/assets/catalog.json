@@ -15,6 +15,62 @@
           "roleEn": "King of England"
         },
         {
+          "id": "rat",
+          "name": "Die Ratte",
+          "role": "Feigling im Sold",
+          "side": "kreuzfahrer",
+          "nameEn": "The Rat",
+          "roleEn": "Coward for hire"
+        },
+        {
+          "id": "snake",
+          "name": "Die Schlange",
+          "role": "Intrigant",
+          "side": "kreuzfahrer",
+          "nameEn": "The Snake",
+          "roleEn": "Schemer"
+        },
+        {
+          "id": "pig",
+          "name": "Das Schwein",
+          "role": "Grobian",
+          "side": "kreuzfahrer",
+          "nameEn": "The Pig",
+          "roleEn": "Brute"
+        },
+        {
+          "id": "wolf",
+          "name": "Der Wolf",
+          "role": "Kriegsherr des Nordens",
+          "side": "kreuzfahrer",
+          "nameEn": "The Wolf",
+          "roleEn": "Warlord of the north"
+        },
+        {
+          "id": "saladin",
+          "name": "Saladin",
+          "role": "Sultan der Sarazenen",
+          "side": "sarazenen",
+          "nameEn": "Saladin",
+          "roleEn": "Sultan of the Saracens"
+        },
+        {
+          "id": "caliph",
+          "name": "Der Kalif",
+          "role": "Freund des Feuers",
+          "side": "sarazenen",
+          "nameEn": "The Caliph",
+          "roleEn": "Friend of fire"
+        },
+        {
+          "id": "sultan",
+          "name": "Der Sultan",
+          "role": "Herr der Wüstenstadt",
+          "side": "sarazenen",
+          "nameEn": "The Sultan",
+          "roleEn": "Lord of the desert city"
+        },
+        {
           "id": "lord_fr",
           "name": "Fürst (fr)",
           "role": "Nach dem Anhören umbenennen",
@@ -53,62 +109,6 @@
           "side": "kreuzfahrer",
           "nameEn": "The Abbot",
           "roleEn": "Pious taskmaster"
-        },
-        {
-          "id": "wolf",
-          "name": "Der Wolf",
-          "role": "Kriegsherr des Nordens",
-          "side": "kreuzfahrer",
-          "nameEn": "The Wolf",
-          "roleEn": "Warlord of the north"
-        },
-        {
-          "id": "pig",
-          "name": "Das Schwein",
-          "role": "Grobian",
-          "side": "kreuzfahrer",
-          "nameEn": "The Pig",
-          "roleEn": "Brute"
-        },
-        {
-          "id": "snake",
-          "name": "Die Schlange",
-          "role": "Intrigant",
-          "side": "kreuzfahrer",
-          "nameEn": "The Snake",
-          "roleEn": "Schemer"
-        },
-        {
-          "id": "rat",
-          "name": "Die Ratte",
-          "role": "Feigling im Sold",
-          "side": "kreuzfahrer",
-          "nameEn": "The Rat",
-          "roleEn": "Coward for hire"
-        },
-        {
-          "id": "saladin",
-          "name": "Saladin",
-          "role": "Sultan der Sarazenen",
-          "side": "sarazenen",
-          "nameEn": "Saladin",
-          "roleEn": "Sultan of the Saracens"
-        },
-        {
-          "id": "caliph",
-          "name": "Der Kalif",
-          "role": "Freund des Feuers",
-          "side": "sarazenen",
-          "nameEn": "The Caliph",
-          "roleEn": "Friend of fire"
-        },
-        {
-          "id": "sultan",
-          "name": "Der Sultan",
-          "role": "Herr der Wüstenstadt",
-          "side": "sarazenen",
-          "nameEn": "The Sultan",
-          "roleEn": "Lord of the desert city"
         },
         {
           "id": "emir",
