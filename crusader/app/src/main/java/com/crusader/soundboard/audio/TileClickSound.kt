@@ -3,11 +3,12 @@ package com.crusader.soundboard.audio
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.util.Log
 
 /** Kurzer Klickton, wenn eine Kachel (Kategorie, Gruppe, ...) angetippt wird. */
 fun playTileClickSound(context: Context) {
     try {
-        val descriptor = context.assets.openFd("sounds/_unsorted/fx/swhit11.ogg")
+        val descriptor = context.assets.openFd("sounds/_unsorted/fx/swhit9.ogg")
         val mediaPlayer = MediaPlayer()
         mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder()
@@ -22,6 +23,6 @@ fun playTileClickSound(context: Context) {
         mediaPlayer.prepare()
         mediaPlayer.start()
     } catch (e: Exception) {
-        // Kein Klickton, wenn die Datei fehlt oder die Wiedergabe fehlschlaegt.
+        Log.w("TileClickSound", "Klickton konnte nicht abgespielt werden", e)
     }
 }
