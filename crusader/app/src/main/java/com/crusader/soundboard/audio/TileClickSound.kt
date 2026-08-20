@@ -7,7 +7,7 @@ import android.media.MediaPlayer
 /** Kurzer Klickton, wenn eine Kachel (Kategorie, Gruppe, ...) angetippt wird. */
 fun playTileClickSound(context: Context) {
     try {
-        val descriptor = context.assets.openFd("sounds/_unsorted/fx/swhit11.wav")
+        val descriptor = context.assets.openFd("sounds/_unsorted/fx/swhit11.ogg")
         val mediaPlayer = MediaPlayer()
         mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder()
