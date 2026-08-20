@@ -127,14 +127,6 @@
           "roleEn": "Trader with an agenda"
         },
         {
-          "id": "sultana",
-          "name": "Die Sultanin",
-          "role": "Herrin der Oase",
-          "side": "sarazenen",
-          "nameEn": "The Sultana",
-          "roleEn": "Mistress of the oasis"
-        },
-        {
           "id": "nizar",
           "name": "Nizar",
           "role": "Herr der Assassinen",
