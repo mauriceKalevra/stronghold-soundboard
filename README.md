@@ -2,15 +2,14 @@
 By Maurice Kalevra.
 Ein Stronghold Crusader Soundboard für Android (min v.10)
 
----
 
 ## 1. Voraussetzungen
 
 | | |
 |---|---|
 | Android Studio | Ladybug (2024.2) oder neuer |
-| JDK | 17 (bringt Android Studio mit) |
-| Gradle | 8.9 (lädt Android Studio automatisch) |
+| JDK | 17 (in Android Studio ) |
+| Gradle | 8.9 |
 | Mindest-Android | 10 (API 29) |
 
 
@@ -19,10 +18,10 @@ Ein Stronghold Crusader Soundboard für Android (min v.10)
 app/src/main/assets/
 ├── catalog.json                  ← Struktur (Kategorien und Gruppen)
 ├── music/
-│   └── intro.mp3                 ← Musik für den Ladebildschirm (optional)
+│   └── intro.mp3                 ← Intro
 └── sounds/
     ├── characters/
-    │   ├── richard/              ← ri_anger_01.mp3, ri_congrats_01.mp3, …
+    │   ├── richard/              ← Character sounds (ri_anger_01.mp3, ri_congrats_01.mp3, …)
     │   ├── saladin/
     │   └── …
     ├── narrator/narrator/
